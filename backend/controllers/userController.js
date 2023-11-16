@@ -1,9 +1,12 @@
 const User = require("../models/user");
+const Role = require("../models/role");
 
 async function createUser(req, res) {
     try {
-        console.log(req.body);
-        const user = await User(req.body);
+        const {role, ...userData} = req.body;
+        const roleFound = await Role.findOne({roleName: role})
+        const userCompleteData = {...userData, role: roleFound};
+        const user = User(userCompleteData);
         user.save();
         res.status(201).json(user)
     } catch (err) {
