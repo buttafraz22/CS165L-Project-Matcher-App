@@ -1,3 +1,5 @@
+#################################### Backend ############################################
+
 # Logs
 backend/logs
 backend/*.log
@@ -128,3 +130,27 @@ backend/.yarn/unplugged
 backend/.yarn/build-state.yml
 backend/.yarn/install-state.gz
 backend/.pnp.*
+
+################################### Frontend ############################################
+
+# dependencies
+frontend/node_modules
+frontend/.pnp
+frontend/.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+frontend/build
+
+# misc
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
