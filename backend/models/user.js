@@ -26,13 +26,12 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['admin', 'user'],
+        enum: ['male', 'female'],
         required: true
     },
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role',
-        required: true
     }
 }, {timestamps:true});
 

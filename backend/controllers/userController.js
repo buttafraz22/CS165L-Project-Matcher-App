@@ -2,6 +2,7 @@ const User = require("../models/user");
 
 async function createUser(req, res) {
     try {
+        console.log(req.body);
         const user = await User(req.body);
         user.save();
         res.status(201).json(user)
