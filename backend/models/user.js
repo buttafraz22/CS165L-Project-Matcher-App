@@ -11,12 +11,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: (value) => value.length >= 8,
-            message: 'Password must be at least 8 characters long',
+            message: 'Password must be at least 8 characters long'
         }
     },
     email: {
         type: String,
-        unique: true,
+        unique: true
     },
     age: {
         type: Number,
@@ -29,7 +29,11 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'user'],
         required: true
     },
-    role: {type: mongoose.Schema.Types.ObjectId, ref: 'Role'}
+    role: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Role',
+        required: true
+    }
 }, {timestamps:true});
 
 module.exports = mongoose.model("User", userSchema);
