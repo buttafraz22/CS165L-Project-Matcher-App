@@ -1,12 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+require("./utils/db");
 
 const app = express();
 
-app.get("/test", (req, res) => {
-    res.send("Server is running.");
-});
+app.use(bodyParser.json());
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000.');
