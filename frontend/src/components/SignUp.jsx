@@ -37,7 +37,7 @@ function SignUp() {
             username: '',
             password: '',
             email: '',
-            gender: 'Male',
+            gender: '',
         }
     );
 
@@ -50,6 +50,47 @@ function SignUp() {
         };
 
         console.log(signUpData);
+
+        let check = checkConstraints(signUpData);
+
+        console.log(check);
+
+        if (check === "All is good") {
+            const options = {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(signUpData)
+              };
+            fetch('http://localhost:5000/api/users', options)
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+        } else {
+            alert(check);
+        }
+
+
+    }
+
+    function checkConstraints(signUpData) {
+        for (let key in signUpData) {
+            if (signUpData.hasOwnProperty(key)) {
+                if (
+                    (typeof signUpData[key] === 'string' && signUpData[key].trim() === '') ||
+                    (typeof signUpData[key] === 'number' && signUpData[key] < 18)
+                ) {
+                   return `Please fill out the ${key}`;
+                }
+            }
+        }
+        if (signUpData.password.length < 8) {
+            return "Password must be at least 8 characters long.";
+        } if (signUpData.age < 18) {
+            return "Age must be at least 18.";
+        }
+        return "All is good"
     }
 
     function onChanged(e) {
@@ -71,9 +112,9 @@ function SignUp() {
     function onSelectGender(e) {
         let value = e.target.value;
         if (value == 1) {
-            dispatch({type: 'setGender', payload: 'Male'});
+            dispatch({type: 'setGender', payload: 'male'});
         } else if (value == 2){
-            dispatch({type: 'setGender', payload: 'Female'});
+            dispatch({type: 'setGender', payload: 'female'});
         }
     }
 
