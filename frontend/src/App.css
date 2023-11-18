@@ -36,3 +36,59 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar {
+  background-color: #CE5959 !important;
+}
+
+.navbar-brand {
+  font-family: Oleo Script;
+  font-size: 2rem;
+}
+
+.nav-item a{
+  font-size: 1.2rem;
+}
+
+.login {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.image-wrapper {
+  height: 580px;
+  width: 800px;
+  overflow: hidden;
+  border-radius: 0 20px 20px 0;
+}
+
+.image-wrapper img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+form h2{
+  font-weight: bold;
+}
+
+.form-buttons button:first-child{
+  background-color: #89375F;
+  width: 100%;
+}
+
+.form-buttons button:last-child{
+  border-color: #89375F;
+  color: #89375F;
+  width: 100%;
+}
+.form-buttons button:last-child:hover{
+  background-color: #89375F;
+  color: white;
+}
