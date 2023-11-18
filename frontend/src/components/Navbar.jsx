@@ -13,10 +13,10 @@ function Navbar() {
                         <a className="nav-link text-light" href="/about">About <span className="sr-only">(current)</span></a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-light" href="#">Testimonials</a>
+                        <a className="nav-link text-light" href="/testimonials">Testimonials</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-light" href="#">Contact</a>
+                        <a className="nav-link text-light" href="/contact">Contact</a>
                     </li>
                 </ul>
             </div>

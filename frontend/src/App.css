@@ -92,3 +92,21 @@ form h2{
   background-color: #89375F;
   color: white;
 }
+
+.testimonial-card {
+  border-radius: 20px !important;
+  overflow: hidden;
+  transition: 0.3s;
+  border: 1px solid #de6a6a;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+.testimonial-card p:first-child{
+  background-color: #de6a6a;
+  color: white;
+  font-weight: bold;
+}
