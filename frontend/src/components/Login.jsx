@@ -3,12 +3,15 @@ import Navbar from './Navbar';
 import InputField from './InputField';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
 
     function onChanged(e) {
         let value = e.target.value;
@@ -37,7 +40,14 @@ function Login() {
               };
             fetch('http://localhost:5000/api/login', options)
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                if (data.isExist) {
+                    navigate('/home');
+                } else {
+                    alert("Username and password is incorrect.")
+                }
+
+            })
             .catch(error => console.error(error));
         } else {
             alert(check);

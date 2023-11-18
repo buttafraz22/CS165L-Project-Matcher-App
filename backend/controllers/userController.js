@@ -6,9 +6,19 @@ async function createUser(req, res) {
         const {role, ...userData} = req.body;
         const roleFound = await Role.findOne({roleName: role});
         const userCompleteData = {...userData, role: roleFound};
+        let message = '';
+
+        if (!isUsernameUnique(userData.username)) {
+            message = "Username already exist";
+        } else if (!isUsernameUnique(userData.email)) {
+            message = "Email already exist";
+        } else {
+            message = "User has been created";
+        }
+
         const user = await User(userData);
         user.save();
-        res.status(201).json(user)
+        res.status(201).json({message})
     } catch (err) {
         res.status(500).json({ error : err.message, })
     }
@@ -53,13 +63,29 @@ async function login(req, res) {
         const {username, password} = req.body;
         const userFound = await User.findOne({username, password});
         if (userFound) {
-            res.json({message: "User exist."});
+            res.json({isExist: true});
         } else {
-            throw {message: "User doesn't exist."};
+            res.json({isExist: false});
         }
     } catch (err) {
         res.status(500).json({ error : err.message })
     }
+}
+
+async function isUsernameUnique(username) {
+    const userFound = await User.findOne({username});
+    if (userFound) {
+        return false;
+    }
+    return true;
+}
+
+async function isEmailUnique(email) {
+    const userFound = await User.findOne({email});
+    if (userFound) {
+        return false;
+    }
+    return true;
 }
 
 module.exports = {

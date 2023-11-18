@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import InputField from './InputField';
 import {useReducer, useState} from 'react';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
 
 const reducer = (currentState, action) => {
     switch (action.type){
@@ -43,6 +44,8 @@ function SignUp() {
 
     const [age, setAge] = useState(18);
 
+    const navigate = useNavigate();
+
     function onSignUp() {
         let signUpData= {
             ...state,
@@ -65,7 +68,16 @@ function SignUp() {
               };
             fetch('http://localhost:5000/api/users', options)
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                if (data.message === "Username already exist") {
+                    alert(data.message);
+                } else if (data.message === "email already exist") {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                    navigate('/')
+                }
+            })
             .catch(error => console.error(error));
         } else {
             alert(check);
@@ -97,14 +109,14 @@ function SignUp() {
         let value = e.target.value;
         let name = e.target.name;
 
-        if (name == "username") {
+        if (name === "username") {
             dispatch({type: 'setUsername', payload: value});
-        } else if (name == "password") {
+        } else if (name === "password") {
             console.log("I am in");
             dispatch({type: 'setPassword', payload: value});
-        } else if (name == "email") {
+        } else if (name === "email") {
             dispatch({type: 'setEmail', payload: value});
-        } else if (name == "age") {
+        } else if (name === "age") {
             dispatch({type: 'setAge', payload: value});
         }
     }
