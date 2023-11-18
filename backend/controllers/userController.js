@@ -6,7 +6,7 @@ async function createUser(req, res) {
         const {role, ...userData} = req.body;
         const roleFound = await Role.findOne({roleName: role});
         const userCompleteData = {...userData, role: roleFound};
-        const user = await User(userCompleteData);
+        const user = await User(userData);
         user.save();
         res.status(201).json(user)
     } catch (err) {
@@ -22,7 +22,7 @@ async function updateUser(req, res) {
         const roleFound = await Role.findOne({roleName: role});
         const userCompleteData = {...userData, role: roleFound};
         
-        const updatedUser = await User.findByIdAndUpdate(id,userCompleteData,{ new: true });
+        const updatedUser = await User.findByIdAndUpdate(id,userData,{ new: true });
         res.json(updatedUser)
     } catch (err) {
         res.status(500).json({ error : err.message })

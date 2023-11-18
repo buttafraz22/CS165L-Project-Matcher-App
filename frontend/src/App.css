@@ -80,14 +80,13 @@ form h2{
 
 .form-buttons button:first-child{
   background-color: #89375F;
-  width: 100%;
 }
 
 .form-buttons button:last-child{
   border-color: #89375F;
   color: #89375F;
-  width: 100%;
 }
+
 .form-buttons button:last-child:hover{
   background-color: #89375F;
   color: white;
