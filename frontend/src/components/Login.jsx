@@ -2,6 +2,7 @@ import '../App.css';
 import Navbar from './Navbar';
 import InputField from './InputField';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 function Login() {
@@ -17,13 +18,12 @@ function Login() {
         } else {
             setPassword(value);
         }
-
-        console.log("Username: ", username);
-        console.log("Password: ", password);
     }
 
     function onLogin() {
         const userData = {username, password};
+
+        console.log(userData);
 
         let check = checkConstraints(userData);
 
@@ -83,8 +83,8 @@ function Login() {
                         <a href="#"><small id="emailHelp" className="form-text text-muted" style={{textAlign: 'end'}}>Forget Password?</small></a>
                     </div>
                     <div className="form-buttons">
-                        <button className="btn btn-secondary mb-3 w-100" onClick={onLogin}>Login</button>
-                        <button className="btn btn-outline-secondary w-100">Sign Up</button>
+                        <a className="btn btn-secondary mb-3 w-100" onClick={onLogin}>Login</a>
+                        <a className="btn btn-outline-secondary w-100" href='/signup'>Sign Up</a>
                     </div>
                 </form>
             </div>

@@ -52,8 +52,10 @@ async function login(req, res) {
     try {
         const {username, password} = req.body;
         const userFound = await User.findOne({username, password});
-        if (!userFound) {
+        if (userFound) {
             res.json({message: "User exist."});
+        } else {
+            throw {message: "User doesn't exist."};
         }
     } catch (err) {
         res.status(500).json({ error : err.message })

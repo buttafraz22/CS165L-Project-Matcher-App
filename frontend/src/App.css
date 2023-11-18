@@ -78,16 +78,17 @@ form h2{
   font-weight: bold;
 }
 
-.form-buttons button:first-child{
+.form-buttons a:first-child{
   background-color: #89375F;
+  color: white;
 }
 
-.form-buttons button:last-child{
+.form-buttons a:last-child{
   border-color: #89375F;
   color: #89375F;
 }
 
-.form-buttons button:last-child:hover{
+.form-buttons a:last-child:hover{
   background-color: #89375F;
   color: white;
 }

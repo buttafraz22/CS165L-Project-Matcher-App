@@ -163,8 +163,8 @@ function SignUp() {
                         </Form.Select>
                     </div>
                     <div className="form-buttons">
-                        <button className="btn btn-secondary mb-3 w-100" onClick={onSignUp}>Sign Up</button>
-                        <button className="btn btn-outline-secondary w-100">Login</button>
+                        <a className="btn btn-secondary mb-3 w-100" onClick={onSignUp}>Sign Up</a>
+                        <a className="btn btn-outline-secondary w-100" href='/'>Login</a>
                     </div>
                 </form>
             </div>
