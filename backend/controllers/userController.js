@@ -48,9 +48,22 @@ async function deleteUser(req, res) {
     }
 }
 
+async function login(req, res) {
+    try {
+        const {username, password} = req.body;
+        const userFound = await User.findOne({username, password});
+        if (!userFound) {
+            res.json({message: "User exist."});
+        }
+    } catch (err) {
+        res.status(500).json({ error : err.message })
+    }
+}
+
 module.exports = {
     createUser,
     updateUser,
     getAllUsers,
-    deleteUser
+    deleteUser,
+    login
 }
