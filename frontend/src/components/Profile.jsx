@@ -3,6 +3,8 @@ import InputField from "./InputField";
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import pako from 'pako';
 
 function Profile() {
 
@@ -13,16 +15,24 @@ function Profile() {
     const [profilePicture, setProfilePicture] = useState("./images/profile-picture.jpg");
 
     const navigate = useNavigate();
+    let params = useParams();
 
     function onSubmitteed(e) {
+        let username = params;
+
+        console.log(username);
 
         let profileData = {
             name,
             aboutMe,
             profilePicture,
             relationshipStatus,
-            profileType
+            profileType,
+            username,
         }
+
+        const uint8Array = new TextEncoder().encode(profileData);
+        const compressedData = pako.gzip(uint8Array);
 
         e.preventDefault();
         const options = {
@@ -30,9 +40,9 @@ function Profile() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(profileData)
+            body: JSON.stringify(compressedData)
           };
-        fetch('http://localhost:5000/api/users', options)
+        fetch('http://localhost:5000/api/profiles', options)
         .then(response => response.json())
         .then(data => {
             if (data.message === "Profile has been created") {
@@ -134,7 +144,7 @@ function Profile() {
                         </div>
                     </div>
                     <div className="form-buttons">
-                        <a className="btn btn-secondary mb-3 w-100" onClick={onCleared}>Create</a>
+                        <a className="btn btn-secondary mb-3 w-100" onClick={onSubmitteed}>Create</a>
                         <a className="btn btn-outline-secondary w-100" onClick={onCleared}>Clear all</a>
                     </div>
                 </form>

@@ -10,7 +10,8 @@ const profileSchema = new mongoose.Schema({
         type: String,
     },
     relationshipStatus: {
-        type: Boolean,
+        type: String,
+        enum: ['single', 'married'],
     },
     aboutMe: {
         type: String,
@@ -21,7 +22,8 @@ const profileSchema = new mongoose.Schema({
     },
     profileType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Role'
+        ref: 'Role',
+        enum: ['partner', 'parent'],
     }
 }, {timestamps:true});
 

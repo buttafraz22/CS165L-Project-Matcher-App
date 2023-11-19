@@ -75,7 +75,7 @@ function SignUp() {
                     alert(data.message);
                 } else {
                     alert(data.message);
-                    navigate('/')
+                    navigate('/profile/'+state.username);
                 }
             })
             .catch(error => console.error(error));
