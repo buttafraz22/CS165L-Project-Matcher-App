@@ -6,6 +6,7 @@ import { useState } from "react";
 function Profile() {
 
     const [name, setName] = useState('');
+    const [profilePicture, setProfilePicture] = useState("./images/profile-picture.jpg");
 
     function onSubmitteed(e) {
         e.preventDefault();
@@ -25,6 +26,13 @@ function Profile() {
         if (name === 'name') {
             setName(value);
         }   
+    }
+
+    async function handleFileUpload(e) {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        console.log(base64);
+        setProfilePicture(base64);
     }
 
     return (
@@ -57,7 +65,7 @@ function Profile() {
                             <div>
                                 <div class="form-group">
                                     <label for="profile-upload">
-                                        <img src="./images/profile-picture.jpg" className="custom-picture" />
+                                        <img src={profilePicture} className="custom-picture" />
                                     </label>
                                     <input 
                                         type="file"
@@ -66,6 +74,7 @@ function Profile() {
                                         id="profile-upload"
                                         className="form-control custom-picture-upload"
                                         accept=".jpeg, .png, jpg"
+                                        onChange={handleFileUpload}
                                     />
                                 </div> 
                             </div>
@@ -87,6 +96,19 @@ function Profile() {
             </div>
         </>
     );
+}
+
+function convertToBase64(file){ 
+    return new Promise((response, reject)=>{
+        let fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            response(fileReader.result)
+        }
+        fileReader.onerror = (err) => {
+            reject(err)
+        }
+    })
 }
 
 export default Profile;
