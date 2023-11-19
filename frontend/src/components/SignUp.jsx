@@ -133,7 +133,7 @@ function SignUp() {
     return (
         <>
             <Navbar />
-            <div className="login">
+            <div className="signin-signup-grid">
                 <div className="image-wrapper">
                     <img src="./images/image1.png" alt="" />
                 </div>

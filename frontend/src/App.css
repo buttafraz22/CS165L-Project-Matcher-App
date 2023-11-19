@@ -50,7 +50,7 @@
   font-size: 1.2rem;
 }
 
-.login {
+.signin-signup-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
@@ -109,4 +109,36 @@ form h2{
   background-color: #de6a6a;
   color: white;
   font-weight: bold;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.form-group input[type="file"]{
+  display: none;
+}
+
+label .custom-picture{
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 100%;
+  /* border: 3px solid black; */
+}
+
+.custom-picture-upload {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form-inputs .input-sections {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.form-inputs .input-sections div:last-child{
+  margin-left: 10px;
 }

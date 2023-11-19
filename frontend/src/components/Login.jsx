@@ -42,7 +42,7 @@ function Login() {
             .then(response => response.json())
             .then(data => {
                 if (data.isExist) {
-                    navigate('/home');
+                    navigate('/profile');
                 } else {
                     alert("Username and password is incorrect.")
                 }
@@ -69,7 +69,7 @@ function Login() {
     return (
         <>
             <Navbar />
-            <div className="login">
+            <div className="signin-signup-grid">
                 <div className="image-wrapper">
                     <img src="./images/image1.png" alt="" />
                 </div>
