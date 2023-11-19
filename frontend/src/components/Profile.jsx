@@ -2,30 +2,78 @@ import Navbar from "./Navbar";
 import InputField from "./InputField";
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
 
     const [name, setName] = useState('');
+    const [aboutMe, setAboutMe] = useState('');
+    const [profileType, setProfileType] = useState('default');
+    const [relationshipStatus, setRelationshipStatus] = useState('default');
     const [profilePicture, setProfilePicture] = useState("./images/profile-picture.jpg");
 
+    const navigate = useNavigate();
+
     function onSubmitteed(e) {
+
+        let profileData = {
+            name,
+            aboutMe,
+            profilePicture,
+            relationshipStatus,
+            profileType
+        }
+
         e.preventDefault();
+        const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(profileData)
+          };
+        fetch('http://localhost:5000/api/users', options)
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Profile has been created") {
+                alert(data.message);
+                navigate('/home')
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error(error));
     }
 
     function onSelected(e) {
+        const value = e.target.value;
+        const selectName = e.target.name;
+        if (selectName === 'profileType'){
+            setProfileType(value);
+        } else {
+            setRelationshipStatus(value);
+        }
 
     }
 
     function onCleared() {
-
+        setName('');
+        setAboutMe('');
+        setProfileType('default');
+        setRelationshipStatus('default');
+        setProfilePicture('./images/profile-picture.jpg')
     }
 
     function onChanged(e) {
         let value = e.target.value;
-        let name = e.target.name;
-        if (name === 'name') {
+        let inputName = e.target.name;
+        if (inputName === 'name') {
             setName(value);
-        }   
+        } else {
+            setAboutMe(value);
+        }
+        console.log("Name: ", name);
+        console.log("About me: ", aboutMe);
     }
 
     async function handleFileUpload(e) {
@@ -51,20 +99,20 @@ function Profile() {
                                     value={name}
                                     onChanged={onChanged}
                                 />
-                                <Form.Select className='w-100 border p-2 mb-3 rounded' aria-label="Default select example" onChange={onSelected}>
-                                    <option>Profile Type</option>
-                                    <option value="1">Partner</option>
-                                    <option value="2">Parent</option>
+                                <Form.Select name="profileType" className='w-100 border p-2 mb-3 rounded' aria-label="Default select example" onChange={onSelected} value={profileType}>
+                                    <option value="default">Profile Type</option>
+                                    <option value="partner">Partner</option>
+                                    <option value="parent">Parent</option>
                                 </Form.Select>
-                                <Form.Select className='w-100 border p-2 mb-3 rounded' aria-label="Default select example" onChange={onSelected}>
-                                    <option>Relationship Status</option>
-                                    <option value="3">Single</option>
-                                    <option value="4">Married</option>
+                                <Form.Select name="relationshipStatus" className='w-100 border p-2 mb-3 rounded' aria-label="Default select example" onChange={onSelected} value={relationshipStatus}>
+                                    <option value="default">Relationship Status</option>
+                                    <option value="single">Single</option>
+                                    <option value="married">Married</option>
                                 </Form.Select>
                             </div>
                             <div>
-                                <div class="form-group">
-                                    <label for="profile-upload">
+                                <div className="form-group">
+                                    <label htmlFor="profile-upload">
                                         <img src={profilePicture} className="custom-picture" />
                                     </label>
                                     <input 
@@ -80,14 +128,14 @@ function Profile() {
                             </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">About me</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="About me"></textarea>
+                        <div className="form-group">
+                            <label htmlFor="exampleFormControlTextarea1">About me</label>
+                            <textarea className="form-control" id="exampleFormControlTextarea1" name="aboutMe" rows="3" placeholder="About me" value={aboutMe} onChange={onChanged}></textarea>
                         </div>
                     </div>
                     <div className="form-buttons">
                         <a className="btn btn-secondary mb-3 w-100" onClick={onCleared}>Create</a>
-                        <a className="btn btn-outline-secondary w-100" href='/'>Clear all</a>
+                        <a className="btn btn-outline-secondary w-100" onClick={onCleared}>Clear all</a>
                     </div>
                 </form>
                 <div className="image-wrapper">
