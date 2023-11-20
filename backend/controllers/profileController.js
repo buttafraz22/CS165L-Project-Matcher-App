@@ -30,8 +30,13 @@ async function createProfile(req, res) {
         console.log(profileCompleteData);
         const user = await Profile(profileCompleteData);
         user.save();
-        let message = 'Profile has been created';
-        res.status(201).json({message})
+        if (user != null) {
+            let message = 'Profile has been created.';
+            res.status(201).json({message});
+        } else {
+            let err = 'There is a error.';
+            res.status(201).json({err});
+        }
     } catch (err) {
         res.status(500).json({ error : err.message, })
     }

@@ -43,7 +43,7 @@ function Login() {
             .then(response => response.json())
             .then(data => {
                 if (data.isExist) {
-                    navigate('/profile');
+                    navigate('/home');
                 } else {
                     alert("Username and password is incorrect.")
                 }

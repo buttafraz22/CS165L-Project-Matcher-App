@@ -15,7 +15,7 @@ function CreateProfile() {
     const [profileType, setProfileType] = useState('default');
     const [relationshipStatus, setRelationshipStatus] = useState('default');
     const [profilePicture, setProfilePicture] = useState('');
-    const [visualizePicture, setVisualizePicture] = useState("./images/profile-picture.jpg");
+    const [visualizePicture, setVisualizePicture] = useState("/images/profile-picture.jpg");
 
     const navigate = useNavigate();
     let params = useParams();
@@ -38,28 +38,16 @@ function CreateProfile() {
         formData.append('profileData', JSON.stringify(profileData));
 
         axios.post('http://localhost:5000/api/profiles', formData)
-        .then(res=>{})
+        .then(res=>{
+            console.log(res);
+            if (res.data.message) {
+                alert(res.data.message);
+                navigate('/home');
+            } else {
+                alert('Error');
+            }
+        })
         .catch(err=>console.log(err));
-
-        // e.preventDefault();
-        // const options = {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(profileData)
-        //   };
-        // fetch('http://localhost:5000/api/profiles', options)
-        // .then(response => response.json())
-        // .then(data => {
-        //     if (data.message === "Profile has been created") {
-        //         alert(data.message);
-        //         navigate('/home')
-        //     } else {
-        //         alert(data.message);
-        //     }
-        // })
-        // .catch(error => console.error(error));
     }
 
     function onSelected(e) {
@@ -132,7 +120,7 @@ function CreateProfile() {
                             <div>
                                 <div className="form-group">
                                     <label htmlFor="profile-upload">
-                                        <img src={visualizePicture} className="custom-picture" />
+                                        <img src={visualizePicture} alt="Add image" className="custom-picture" />
                                     </label>
                                     <input 
                                         type="file"
@@ -158,7 +146,7 @@ function CreateProfile() {
                     </div>
                 </form>
                 <div className="image-wrapper">
-                    <img src="./images/image2.jpg" alt="" />
+                    <img src="/images/image2.jpg" alt="image" />
                 </div>
             </div>
         </>

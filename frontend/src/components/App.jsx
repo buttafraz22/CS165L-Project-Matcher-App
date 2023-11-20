@@ -12,6 +12,7 @@ function App() {
   return (
     <Main>
         <Routes>
+            <Route exact path="/home" element={<Home />} />
             <Route exact path="/" element={<Login />} />
             <Route exact path="/signup" element={<SignUp />} />
             <Route exact path="/profile/:username" element={<CreateProfile />} />
