@@ -1,3 +1,5 @@
+import React from "react";
+
 function InputField(props) {
     return (
         <div className="form-group">

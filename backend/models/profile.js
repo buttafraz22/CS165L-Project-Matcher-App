@@ -7,7 +7,14 @@ const profileSchema = new mongoose.Schema({
         type: String,
     },
     profilePicture: {
-        type: String,
+        fieldname: String,
+        originalname: String,
+        encoding: String,
+        mimetype: String,
+        destination: String,
+        filename: String,
+        path: String,
+        size: Number,
     },
     relationshipStatus: {
         type: String,
@@ -22,8 +29,7 @@ const profileSchema = new mongoose.Schema({
     },
     profileType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Role',
-        enum: ['partner', 'parent'],
+        ref: 'Role'
     }
 }, {timestamps:true});
 

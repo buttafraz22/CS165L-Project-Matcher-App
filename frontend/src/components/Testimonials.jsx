@@ -1,6 +1,7 @@
 import Navbar from "./Navbar";
 import TestimonialCard from "./TestimonialCard";
 import testimonialsData from "../testimonialsData";
+import React from "react";
 
 function Testimonials() {
     return (

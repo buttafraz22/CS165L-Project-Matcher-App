@@ -5,6 +5,7 @@ import Home from './Home';
 import About from './About';
 import Testmonials from './Testimonials';
 import CreateProfile from './CreateProfile';
+import React from "react";
 import {BrowserRouter as Main, Routes, Route} from "react-router-dom";
 
 function App() {

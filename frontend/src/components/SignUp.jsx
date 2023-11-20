@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import InputField from './InputField';
 import {useReducer, useState} from 'react';
 import Form from 'react-bootstrap/Form';
+import React from "react";
 import { useNavigate } from 'react-router-dom';
 
 const reducer = (currentState, action) => {

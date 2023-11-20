@@ -1,10 +1,12 @@
 import Navbar from "./Navbar";
 import InputField from "./InputField";
+import React from "react";
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import pako from 'pako';
+import axios from 'axios';
+
 
 function CreateProfile() {
 
@@ -12,24 +14,32 @@ function CreateProfile() {
     const [aboutMe, setAboutMe] = useState('');
     const [profileType, setProfileType] = useState('default');
     const [relationshipStatus, setRelationshipStatus] = useState('default');
-    const [profilePicture, setProfilePicture] = useState("./images/profile-picture.jpg");
+    const [profilePicture, setProfilePicture] = useState('');
+    const [visualizePicture, setVisualizePicture] = useState("./images/profile-picture.jpg");
 
     const navigate = useNavigate();
-    // let params = useParams();
+    let params = useParams();
 
     function onSubmitteed(e) {
-        // let username = params;
+        let username = params;
 
-        // console.log(username);
+        console.log(username);
 
-        // let profileData = {
-        //     name,
-        //     aboutMe,
-        //     // profilePicture,
-        //     relationshipStatus,
-        //     profileType,
-        //     username,
-        // }
+        let profileData = {
+            name,
+            aboutMe,
+            relationshipStatus,
+            profileType,
+            ...username,
+        }
+
+        const formData = new FormData();
+        formData.append('file', profilePicture);
+        formData.append('profileData', JSON.stringify(profileData));
+
+        axios.post('http://localhost:5000/api/profiles', formData)
+        .then(res=>{})
+        .catch(err=>console.log(err));
 
         // e.preventDefault();
         // const options = {
@@ -68,7 +78,8 @@ function CreateProfile() {
         setAboutMe('');
         setProfileType('default');
         setRelationshipStatus('default');
-        setProfilePicture('./images/profile-picture.jpg')
+        setProfilePicture('');
+        setVisualizePicture('./images/profile-picture.jpg');
     }
 
     function onChanged(e) {
@@ -87,7 +98,8 @@ function CreateProfile() {
         const file = e.target.files[0];
         const base64 = await convertToBase64(file);
         console.log(base64);
-        setProfilePicture(base64);
+        setProfilePicture(file);
+        setVisualizePicture(base64);
     }
 
     return (
@@ -120,7 +132,7 @@ function CreateProfile() {
                             <div>
                                 <div className="form-group">
                                     <label htmlFor="profile-upload">
-                                        <img src={profilePicture} className="custom-picture" />
+                                        <img src={visualizePicture} className="custom-picture" />
                                     </label>
                                     <input 
                                         type="file"

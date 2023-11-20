@@ -1,3 +1,5 @@
+import React from "react";
+
 function TestimonialCard(props) {
     return (
         <div className="my-3 testimonial-card">
