@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import pako from 'pako';
 
-function Profile() {
+function CreateProfile() {
 
     const [name, setName] = useState('');
     const [aboutMe, setAboutMe] = useState('');
@@ -15,44 +15,41 @@ function Profile() {
     const [profilePicture, setProfilePicture] = useState("./images/profile-picture.jpg");
 
     const navigate = useNavigate();
-    let params = useParams();
+    // let params = useParams();
 
     function onSubmitteed(e) {
-        let username = params;
+        // let username = params;
 
-        console.log(username);
+        // console.log(username);
 
-        let profileData = {
-            name,
-            aboutMe,
-            profilePicture,
-            relationshipStatus,
-            profileType,
-            username,
-        }
+        // let profileData = {
+        //     name,
+        //     aboutMe,
+        //     // profilePicture,
+        //     relationshipStatus,
+        //     profileType,
+        //     username,
+        // }
 
-        const uint8Array = new TextEncoder().encode(profileData);
-        const compressedData = pako.gzip(uint8Array);
-
-        e.preventDefault();
-        const options = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(compressedData)
-          };
-        fetch('http://localhost:5000/api/profiles', options)
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === "Profile has been created") {
-                alert(data.message);
-                navigate('/home')
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error(error));
+        // e.preventDefault();
+        // const options = {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(profileData)
+        //   };
+        // fetch('http://localhost:5000/api/profiles', options)
+        // .then(response => response.json())
+        // .then(data => {
+        //     if (data.message === "Profile has been created") {
+        //         alert(data.message);
+        //         navigate('/home')
+        //     } else {
+        //         alert(data.message);
+        //     }
+        // })
+        // .catch(error => console.error(error));
     }
 
     function onSelected(e) {
@@ -169,4 +166,4 @@ function convertToBase64(file){
     })
 }
 
-export default Profile;
+export default CreateProfile;

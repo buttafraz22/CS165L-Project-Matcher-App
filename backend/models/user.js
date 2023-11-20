@@ -29,11 +29,6 @@ const userSchema = new mongoose.Schema({
         enum: ['male', 'female'],
         required: true
     },
-    // role: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Role',
-    //     required: true
-    // }
 }, {timestamps:true});
 
 module.exports = mongoose.model("User", userSchema);

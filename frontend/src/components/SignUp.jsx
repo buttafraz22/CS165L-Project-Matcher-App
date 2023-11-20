@@ -161,13 +161,10 @@ function SignUp() {
                             value={state.email}
                             onChanged={onChanged}
                         />
-                        <InputField 
-                            name='age'
-                            type='number'
-                            placeholder='Age'
-                            value={age}
-                            onChanged={(e)=>setAge(e.target.value)}
-                        />
+                        <div className="form-group">
+                            <label htmlFor="ageInput">Age</label>
+                            <input type="number" name="age" id="ageInput" className="form-control" value={age} onChange={onChanged} min={18} max={70}/>
+                        </div>
                         <Form.Select className='w-100 border p-2 rounded' aria-label="Default select example" onChange={onSelectGender}>
                             <option>Select Gender</option>
                             <option value="1">Male</option>
