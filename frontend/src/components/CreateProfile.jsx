@@ -23,8 +23,6 @@ function CreateProfile() {
     function onSubmitteed(e) {
         let username = params;
 
-        console.log(username);
-
         let profileData = {
             name,
             aboutMe,
@@ -42,7 +40,8 @@ function CreateProfile() {
             console.log(res);
             if (res.data.message) {
                 alert(res.data.message);
-                navigate('/home');
+                alert(res.data.userId);
+                navigate('/home/' + res.data.userId);
             } else {
                 alert('Error');
             }
@@ -67,7 +66,7 @@ function CreateProfile() {
         setProfileType('default');
         setRelationshipStatus('default');
         setProfilePicture('');
-        setVisualizePicture('./images/profile-picture.jpg');
+        setVisualizePicture('/images/profile-picture.jpg');
     }
 
     function onChanged(e) {
@@ -78,8 +77,6 @@ function CreateProfile() {
         } else {
             setAboutMe(value);
         }
-        console.log("Name: ", name);
-        console.log("About me: ", aboutMe);
     }
 
     async function handleFileUpload(e) {

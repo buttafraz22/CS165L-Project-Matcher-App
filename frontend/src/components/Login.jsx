@@ -42,8 +42,9 @@ function Login() {
             fetch('http://localhost:5000/api/login', options)
             .then(response => response.json())
             .then(data => {
-                if (data.isExist) {
-                    navigate('/home');
+                if (data.userFound) {
+                    console.log(data.userFound);
+                    navigate('/home/' + data.userFound._id);
                 } else {
                     alert("Username and password is incorrect.")
                 }

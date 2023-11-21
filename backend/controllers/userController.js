@@ -63,7 +63,7 @@ async function login(req, res) {
         const {username, password} = req.body;
         const userFound = await User.findOne({username, password});
         if (userFound) {
-            res.json({isExist: true});
+            res.json({userFound});
         } else {
             res.json({isExist: false});
         }

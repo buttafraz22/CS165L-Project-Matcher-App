@@ -142,3 +142,24 @@ label .custom-picture{
 .form-inputs .input-sections div:last-child{
   margin-left: 10px;
 }
+
+.profile-image {
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  border-radius: 100%;
+  display: inline-block;
+  border: 2px solid rgb(219, 32, 32);
+}
+
+.profile-image img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.nav-items {
+  display: flex !important;
+  align-items: center;
+
+}
