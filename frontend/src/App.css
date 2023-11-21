@@ -161,5 +161,35 @@ label .custom-picture{
 .nav-items {
   display: flex !important;
   align-items: center;
+}
 
+.user-profile {
+  background-color: #EF9280;
+  color: white;
+  text-align: center;
+  padding: 2% 25%;
+}
+
+.user-profile-wrapper {
+  height: 290px;
+  width: 290px;
+  overflow: hidden;
+  margin: 0 auto;
+  border-radius: 100%;
+  background-color: white;
+  border: 3px solid white;
+}
+
+.user-profile-wrapper img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.user-profile button{
+  height: 70px;
+  width: 70px;
+  border-radius: 100%;
+  border: none;
+  margin: 0 20px;
 }
