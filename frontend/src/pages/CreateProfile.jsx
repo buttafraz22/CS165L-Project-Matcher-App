@@ -41,8 +41,8 @@ function CreateProfile() {
             console.log(res);
             if (res.data.message) {
                 alert(res.data.message);
-                alert(res.data.userId);
-                navigate('/home/' + res.data.userId);
+                alert(res.data._id);
+                navigate('/home/' + res.data._id);
             } else {
                 alert('Error');
             }

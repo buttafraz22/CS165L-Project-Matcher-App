@@ -1,10 +1,11 @@
 import '../App.css';
 import Navbar from '../components/Navbar';
 import InputField from '../components/InputField';
-import {useReducer, useState} from 'react';
+import {useContext, useReducer, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import loginContext from '../context/auth/loginContext';
 
 const reducer = (currentState, action) => {
     switch (action.type){
@@ -44,6 +45,7 @@ function SignUp() {
     );
 
     const [age, setAge] = useState(18);
+    const loginInfo = useContext(loginContext);
 
     const navigate = useNavigate();
 
@@ -76,6 +78,7 @@ function SignUp() {
                     alert(data.message);
                 } else {
                     alert(data.message);
+                    loginInfo.updateLogin(true);
                     navigate('/profile/'+state.username);
                 }
             })

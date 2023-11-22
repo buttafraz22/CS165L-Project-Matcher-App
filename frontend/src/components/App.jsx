@@ -7,17 +7,18 @@ import Testmonials from '../pages/Testimonials';
 import CreateProfile from '../pages/CreateProfile';
 import React from "react";
 import {BrowserRouter as Main, Routes, Route} from "react-router-dom";
-import LoginState from '../context/authentication/LoginState';
+import LoginState from '../context/auth/LoginState';
+import Protected from './Protected';
 
 function App() {
   return (
     <LoginState>
       <Main>
           <Routes>
-              <Route exact path="/home/:userId" element={<Home />} />
+              <Route exact path="/home/:userId" element={<Protected Component={Home} />} />
+              <Route exact path="/profile/:username" element={<Protected Component={CreateProfile} />} />
               <Route exact path="/" element={<Login />} />
               <Route exact path="/signup" element={<SignUp />} />
-              <Route exact path="/profile/:username" element={<CreateProfile />} />
               <Route exact path="/about" element={<About />} />
               <Route exact path="/testimonials" element={<Testmonials />} />
           </Routes>

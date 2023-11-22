@@ -2,11 +2,10 @@ import '../App.css';
 import Navbar from '../components/Navbar';
 import InputField from '../components/InputField';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import loginContext from '../context/authentication/loginContext';
+import loginContext from '../context/auth/loginContext';
 
 
 function Login() {
@@ -14,8 +13,6 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const loginInfo = useContext(loginContext);
-
-    console.log(loginInfo);
 
     const navigate = useNavigate();
 
@@ -49,6 +46,7 @@ function Login() {
             .then(data => {
                 if (data.userFound) {
                     console.log(data.userFound);
+                    loginInfo.updateLogin(true);
                     navigate('/home/' + data.userFound._id);
                 } else {
                     alert("Username and password is incorrect.")

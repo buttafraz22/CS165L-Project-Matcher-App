@@ -4,8 +4,8 @@ import LoginContext from "./loginContext";
 function LoginState(props) {
     const [login, setLogin] = useState(false);
 
-    function updateLogin() {
-        setLogin(prevValue=>!prevValue);
+    function updateLogin(isLogin) {
+        setLogin(isLogin);
     }
 
     return (
