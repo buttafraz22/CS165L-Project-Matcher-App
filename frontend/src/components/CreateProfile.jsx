@@ -144,7 +144,7 @@ function CreateProfile() {
                         <a className="btn btn-outline-secondary w-100" onClick={onCleared}>Clear all</a>
                     </div>
                 </form>
-                <div className="image-wrapper">
+                <div className="image-wrapper" style={{borderRadius: "20px 0 0 20px"}}>
                     <img src="/images/image2.jpg" alt="image" />
                 </div>
             </div>

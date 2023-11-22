@@ -1,24 +1,26 @@
 const User = require("../models/user");
 const Role = require("../models/role");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 async function createUser(req, res) {
     try {
-        const {role, ...userData} = req.body;
-        const roleFound = await Role.findOne({roleName: role});
-        const userCompleteData = {...userData, role: roleFound};
+        const {password, ...remainingData} = req.body;
         let message = '';
 
-        if (!isUsernameUnique(userData.username)) {
+        if (!isUsernameUnique(remainingData.username)) {
             message = "Username already exist";
-        } else if (!isUsernameUnique(userData.email)) {
+        } else if (!isUsernameUnique(remainingData.email)) {
             message = "Email already exist";
         } else {
             message = "User has been created";
         }
 
-        const user = await User(userData);
-        user.save();
-        res.status(201).json({message})
+        bcrypt.hash(password, saltRounds, async function(err, hash) {
+            const user = await User({...remainingData, password: hash});
+            user.save();
+            res.status(201).json({message});
+        });
     } catch (err) {
         res.status(500).json({ error : err.message, })
     }
@@ -61,12 +63,14 @@ async function deleteUser(req, res) {
 async function login(req, res) {
     try {
         const {username, password} = req.body;
-        const userFound = await User.findOne({username, password});
-        if (userFound) {
-            res.json({userFound});
-        } else {
-            res.json({isExist: false});
-        }
+        const userFound = await User.findOne({username});
+        bcrypt.compare(password, userFound.password, async function(err, result) {
+            if (result) {       
+                res.json({userFound});
+            } else {
+                res.json({isExist: false});
+            }
+        });
     } catch (err) {
         res.status(500).json({ error : err.message })
     }

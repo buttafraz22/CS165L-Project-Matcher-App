@@ -43,11 +43,13 @@ function Home() {
     return (
         <>
             <Navbar loggedInStatus="LOGGED_IN" image=""/>
+            <div id='user-profiles'>
             {
                 userProfiles.map((userProfile)=>{
                     return <UserProfile name={userProfile.name} aboutMe={userProfile.aboutMe} />
                 })
             }
+            </div>
             {/* <UserProfile />
             <UserProfile />
             <UserProfile />

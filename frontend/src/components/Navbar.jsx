@@ -3,7 +3,7 @@ import React from "react";
 
 function Navbar(props) {
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light py-2">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light py-2 w-100 position-fixed">
             <a className="navbar-brand text-light ml-5" href="/">Matcher App</a>
             <button className="navbar-toggler bg-light" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@ function Navbar(props) {
                         props.loggedInStatus === "LOGGED_IN" && (
                             <>
                                 <li className="nav-item">
-                                    <a className="nav-link text-light" href="#">Find your partner</a>
+                                    <a className="nav-link text-light" href="#user-profiles">Find your partner</a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link text-light" href="#">

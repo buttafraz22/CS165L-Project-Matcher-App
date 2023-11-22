@@ -53,6 +53,7 @@
 .signin-signup-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
+  padding-top: 5.7%;
 }
 
 .image-wrapper {
@@ -114,6 +115,7 @@ form h2{
 .profile-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
+  padding-top: 5.7%;
 }
 
 .form-group input[type="file"]{
@@ -170,7 +172,7 @@ label .custom-picture{
   color: white;
   text-align: center;
   padding: 2% 25%;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid white;
 }
 
 .user-profile-wrapper {
@@ -195,4 +197,16 @@ label .custom-picture{
   border-radius: 100%;
   border: none;
   margin: 0 20px;
+}
+
+#user-profiles {
+  padding-top: 5%;
+}
+
+.about{
+  padding-top: 8% !important;
+}
+
+.testimonials {
+  padding-top: 8% !important;
 }
