@@ -32,7 +32,7 @@ function Navbar(props) {
                                 </li>
                                 <li className="nav-item">
                                     <div className='profile-image'>
-                                        <img src={props.image} alt='profile-image' />
+                                        <img src="/images/profile-picture.jpg" alt='profile-image' />
                                     </div>
                                 </li>
                             </>

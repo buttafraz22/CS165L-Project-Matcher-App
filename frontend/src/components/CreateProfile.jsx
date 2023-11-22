@@ -34,6 +34,7 @@ function CreateProfile() {
         const formData = new FormData();
         formData.append('file', profilePicture);
         formData.append('profileData', JSON.stringify(profileData));
+        console.log(profilePicture);
 
         axios.post('http://localhost:5000/api/profiles', formData)
         .then(res=>{
@@ -81,6 +82,7 @@ function CreateProfile() {
 
     async function handleFileUpload(e) {
         const file = e.target.files[0];
+        console.log(file);
         const base64 = await convertToBase64(file);
         console.log(base64);
         setProfilePicture(file);

@@ -70,7 +70,23 @@ async function getProfile(req, res) {
     }
 }
 
+async function getAllProfiles(req, res) {
+    try {
+        const {userId} = req.params;
+        console.log(userId);
+        const profilesFound = await Profile.find({ userId: { $ne: userId } });
+        if (profilesFound) {
+            res.json({profilesFound, message: "Profile Found"});
+        } else {
+            res.json({isExist: false});
+        }
+    } catch (err) {
+        res.status(500).json({ error : err.message })
+    }
+}
+
 module.exports = {
     createProfile,
-    getProfile
+    getProfile,
+    getAllProfiles
 }
