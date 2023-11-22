@@ -1,5 +1,5 @@
-import Navbar from "./Navbar";
-import InputField from "./InputField";
+import Navbar from "../components/Navbar";
+import InputField from "../components/InputField";
 import React from "react";
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";

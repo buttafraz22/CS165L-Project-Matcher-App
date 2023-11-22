@@ -1,6 +1,6 @@
 import '../App.css';
-import Navbar from './Navbar';
-import InputField from './InputField';
+import Navbar from '../components/Navbar';
+import InputField from '../components/InputField';
 import {useReducer, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import React from "react";

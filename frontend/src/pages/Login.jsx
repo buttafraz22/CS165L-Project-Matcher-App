@@ -1,16 +1,21 @@
 import '../App.css';
-import Navbar from './Navbar';
-import InputField from './InputField';
+import Navbar from '../components/Navbar';
+import InputField from '../components/InputField';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import loginContext from '../context/authentication/loginContext';
 
 
 function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const loginInfo = useContext(loginContext);
+
+    console.log(loginInfo);
 
     const navigate = useNavigate();
 
