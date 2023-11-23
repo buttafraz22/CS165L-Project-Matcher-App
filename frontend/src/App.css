@@ -173,6 +173,8 @@ label .custom-picture{
   text-align: center;
   padding: 2% 25%;
   border-bottom: 1px solid white;
+  height: 580px;
+  margin-top: 10px;
 }
 
 .user-profile-wrapper {

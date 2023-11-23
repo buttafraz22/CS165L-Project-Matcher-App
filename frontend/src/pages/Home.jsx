@@ -10,20 +10,9 @@ function Home() {
     const userId = useParams().userId;
     const [profileImage, setProfileImage] = useState('');
     const [userProfiles, setUserProfiles] = useState([]);
+    const [profileNum, setProfileNum] = useState(0);
 
     useEffect(()=>{
-        // axios.get('http://localhost:5000/api/profile/'+userId)
-        // .then(async res=> {
-        //     if (res.data.message) {
-        //         console.log(res.data.profileFound);
-        //         const base64 = await convertToBase64(res.data.profileFound.profilePicture.path);
-        //         console.log(base64);
-        //         // setProfileImage(base64);
-        //     } else {
-        //         alert('Error');
-        //     }
-        // })
-        // .catch(err=>console.log(err));
         getAllUserProfiles();
     }, [])
 
@@ -45,16 +34,11 @@ function Home() {
             <Navbar loggedInStatus="LOGGED_IN" image=""/>
             <div id='user-profiles'>
             {
-                userProfiles.map((userProfile)=>{
-                    return <UserProfile name={userProfile.name} aboutMe={userProfile.aboutMe} userId1={userId} userId2={userProfile.userId} />
+                userProfiles.slice(profileNum, profileNum+1).map((userProfile)=>{
+                    return <UserProfile key={userProfile._id} totalProfiles={userProfiles.length} setProfileNum={setProfileNum} name={userProfile.name} aboutMe={userProfile.aboutMe} userId1={userId} userId2={userProfile.userId} />
                 })
             }
             </div>
-            {/* <UserProfile />
-            <UserProfile />
-            <UserProfile />
-            <UserProfile />
-            <UserProfile /> */}
         </>
     );
 }
