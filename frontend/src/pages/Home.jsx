@@ -46,7 +46,7 @@ function Home() {
             <div id='user-profiles'>
             {
                 userProfiles.map((userProfile)=>{
-                    return <UserProfile name={userProfile.name} aboutMe={userProfile.aboutMe} />
+                    return <UserProfile name={userProfile.name} aboutMe={userProfile.aboutMe} userId1={userId} userId2={userProfile.userId} />
                 })
             }
             </div>
