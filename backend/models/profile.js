@@ -25,12 +25,16 @@ const profileSchema = new mongoose.Schema({
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     },
     profileType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Role'
-    }
+        ref: 'Role',
+    },
+    activeStatus: {
+        type: Boolean,
+        default: true,
+    },
 }, {timestamps:true});
 
 module.exports = mongoose.model("Profile", profileSchema);

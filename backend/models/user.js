@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
         enum: ['male', 'female'],
         required: true
     },
+    activeStatus: {
+        type: Boolean,
+        default: true,
+    },
 }, {timestamps:true});
 
 module.exports = mongoose.model("User", userSchema);
