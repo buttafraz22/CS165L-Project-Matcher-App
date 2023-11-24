@@ -31,7 +31,7 @@ function Home() {
 
     return (
         <>
-            <Navbar loggedInStatus="LOGGED_IN" image=""/>
+            <Navbar userId={userId} image=""/>
             <div id='user-profiles'>
             {
                 userProfiles.slice(profileNum, profileNum+1).map((userProfile)=>{

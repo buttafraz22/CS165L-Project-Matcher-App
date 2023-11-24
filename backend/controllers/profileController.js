@@ -1,6 +1,12 @@
 const User = require("../models/user");
 const Role = require("../models/role");
-const Profile = require("../models/profile")
+const Profile = require("../models/profile");
+
+// const fs = require('fs');
+// const base64Img = require('base64-img');
+// const path = require('path');
+
+// const publicPath = path.join(__dirname, 'public');
 
 async function createProfile(req, res) {
     try {
@@ -19,27 +25,6 @@ async function createProfile(req, res) {
             userId,
             profilePicture,
         }
-
-        // Profile(profileCompleteData)
-        // .then(user => {
-        //     if (user !== null) {
-        //     user.save()
-        //         // .then(() => {
-        //         //     console.log("I am in");
-        //         //     let message = 'Profile has been created.';
-        //         //     res.status(201).json({ message });
-        //         // })
-        //         // .catch(err => {
-        //         //     res.status(500).json({ error: err.message });
-        //         // });
-        //     } else {
-        //         let errMessage = 'There is an error.';
-        //         res.status(400).json({ error: errMessage });
-        //     }
-        // })
-        // .catch(err => {
-        //     res.status(500).json({ error: err.message });
-        // });
         const profile = await Profile(profileCompleteData);
         profile.save();
         if (profile != null) {
@@ -73,7 +58,6 @@ async function getProfile(req, res) {
 async function getAllProfiles(req, res) {
     try {
         const {userId} = req.params;
-        console.log(userId);
         const profilesFound = await Profile.find({ userId: { $ne: userId } });
         if (profilesFound) {
             res.json({profilesFound, message: "Profile Found"});
