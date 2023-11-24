@@ -29,11 +29,9 @@ function Login() {
     function onLogin() {
         const userData = {username, password};
 
-        console.log(userData);
+        const check = checkConstraints(userData);
 
-        let check = checkConstraints(userData);
-
-        if (check === "All is good") {
+        if (!check.isFailed) {
             const options = {
                 method: 'POST',
                 headers: {
@@ -51,24 +49,24 @@ function Login() {
                 } else {
                     alert("Username and password is incorrect.")
                 }
-
             })
             .catch(error => console.error(error));
         } else {
-            alert(check);
+            alert(check.message);
         }
 
     }
 
-    function checkConstraints(signUpData) {
-        for (let key in signUpData) {
-            if (signUpData.hasOwnProperty(key)) {
-                if (typeof signUpData[key] === 'string' && signUpData[key].trim() === '') {
-                   return `Please fill out the ${key}`;
+    function checkConstraints(loginData) {
+        for (let key in loginData) {
+            if (loginData.hasOwnProperty(key)) {
+                if (loginData[key] === '') {
+                    console.log("sds");
+                   return {isFailed: true, message: `Please fill out the ${key}`};
                 }
             }
         }
-        return "All is good"
+        return {isFailed: false}
     }
 
     return (

@@ -12,9 +12,9 @@ function CreateProfile() {
 
     const [name, setName] = useState('');
     const [aboutMe, setAboutMe] = useState('');
-    const [profileType, setProfileType] = useState('default');
-    const [relationshipStatus, setRelationshipStatus] = useState('default');
-    const [profilePicture, setProfilePicture] = useState('');
+    const [profileType, setProfileType] = useState(null);
+    const [relationshipStatus, setRelationshipStatus] = useState(null);
+    const [profilePicture, setProfilePicture] = useState(null);
     const [visualizePicture, setVisualizePicture] = useState("/images/profile-picture.jpg");
 
     const navigate = useNavigate();
@@ -26,28 +26,47 @@ function CreateProfile() {
         let profileData = {
             name,
             aboutMe,
-            relationshipStatus,
             profileType,
+            relationshipStatus,
             ...username,
         }
 
-        const formData = new FormData();
-        formData.append('file', profilePicture);
-        formData.append('profileData', JSON.stringify(profileData));
-        console.log(profilePicture);
+        const check = checkConstraints(profileData);
 
-        axios.post('http://localhost:5000/api/profiles', formData)
-        .then(res=>{
-            console.log(res);
-            if (res.data.message) {
-                alert(res.data.message);
-                alert(res.data._id);
-                navigate('/home/' + res.data._id);
-            } else {
-                alert('Error');
+        if (!check.isFailed) {
+            const formData = new FormData();
+            formData.append('file', profilePicture);
+            formData.append('profileData', JSON.stringify(profileData));
+            console.log(profilePicture);
+    
+            axios.post('http://localhost:5000/api/profiles', formData)
+            .then(res=>{
+                console.log(res);
+                if (res.data.message) {
+                    alert(res.data.message);
+                    navigate('/home/' + res.data._id);
+                } else {
+                    alert('Error');
+                }
+            })
+            .catch(err=>console.log(err));
+        } else {
+            alert(check.message);
+        }
+    }
+
+    function checkConstraints(profileData) {
+        console.log("Profile: ",profileData);
+        for (let key in profileData) {
+            if (profileData.hasOwnProperty(key)) {
+                if (
+                    (profileData[key] === '') || (profileData[key] === null)
+                ) {
+                    return {isFailed: true, message: `Please fill out the ${key}`};
+                }
             }
-        })
-        .catch(err=>console.log(err));
+        }
+        return {isFailed: false};
     }
 
     function onSelected(e) {
@@ -64,8 +83,8 @@ function CreateProfile() {
     function onCleared() {
         setName('');
         setAboutMe('');
-        setProfileType('default');
-        setRelationshipStatus('default');
+        setProfileType(null);
+        setRelationshipStatus(null);
         setProfilePicture('');
         setVisualizePicture('/images/profile-picture.jpg');
     }
@@ -106,14 +125,14 @@ function CreateProfile() {
                                     onChanged={onChanged}
                                 />
                                 <Form.Select name="profileType" className='w-100 border p-2 mb-3 rounded' aria-label="Default select example" onChange={onSelected} value={profileType}>
-                                    <option value="default">Profile Type</option>
+                                    <option>Profile Type</option>
                                     <option value="partner">Partner</option>
                                     <option value="parent">Parent</option>
                                 </Form.Select>
                                 <Form.Select name="relationshipStatus" className='w-100 border p-2 mb-3 rounded' aria-label="Default select example" onChange={onSelected} value={relationshipStatus}>
-                                    <option value="default">Relationship Status</option>
+                                    <option>Relationship Status</option>
                                     <option value="single">Single</option>
-                                    <option value="married">Married</option>
+                                    <option value="divorced">Divorced</option>
                                 </Form.Select>
                             </div>
                             <div>

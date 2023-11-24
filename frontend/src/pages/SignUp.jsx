@@ -55,13 +55,9 @@ function SignUp() {
             age
         };
 
-        console.log(signUpData);
-
         let check = checkConstraints(signUpData);
 
-        console.log(check);
-
-        if (check === "All is good") {
+        if (!check.isFailed) {
             const options = {
                 method: 'POST',
                 headers: {
@@ -84,29 +80,33 @@ function SignUp() {
             })
             .catch(error => console.error(error));
         } else {
-            alert(check);
+            alert(check.message);
         }
 
 
     }
 
     function checkConstraints(signUpData) {
+        let message = "";
         for (let key in signUpData) {
             if (signUpData.hasOwnProperty(key)) {
                 if (
                     (typeof signUpData[key] === 'string' && signUpData[key].trim() === '') ||
                     (typeof signUpData[key] === 'number' && signUpData[key] < 18)
                 ) {
-                   return `Please fill out the ${key}`;
+                    message = `Please fill out the ${key}`;
+                    return {isFailed: true, message};
                 }
             }
         }
         if (signUpData.password.length < 8) {
-            return "Password must be at least 8 characters long.";
+            message = "Password must be at least 8 characters long.";
+            return {isFailed: true, message};
         } if (signUpData.age < 18) {
-            return "Age must be at least 18.";
+            message = "Age must be at least 18.";
+            return {isFailed: true, message};
         }
-        return "All is good"
+        return {isFailed: false}
     }
 
     function onChanged(e) {

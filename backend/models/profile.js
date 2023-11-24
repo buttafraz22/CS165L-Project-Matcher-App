@@ -18,7 +18,7 @@ const profileSchema = new mongoose.Schema({
     },
     relationshipStatus: {
         type: String,
-        enum: ['single', 'married'],
+        enum: ['single', 'divorced'],
     },
     aboutMe: {
         type: String,
