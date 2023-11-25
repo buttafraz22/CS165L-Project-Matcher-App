@@ -29,12 +29,31 @@ function Home() {
         .catch(err=>console.log(err));
     }
 
+    // function getAllUserProfiles() {
+    //     axios.get('http://localhost:5000/api/users')
+    //     .then(async res=> {
+    //         if (res.data.message) {
+    //             console.log(res.data.profilesFound);
+    //             setUserProfiles(res.data.profilesFound);
+    //         } else {
+    //             alert('Error');
+    //         }
+    //     })
+    //     .catch(err=>console.log(err));
+    // }
+
+
+
     return (
         <>
             <Navbar userId={userId} image=""/>
             <div id='user-profiles'>
             {
-                userProfiles.slice(profileNum, profileNum+1).map((userProfile)=>{
+                userProfiles.slice(profileNum, profileNum+1)
+                .filter((userProfile)=>{
+                    return userProfile !== "female"
+                })
+                .map((userProfile)=>{
                     return <UserProfile key={userProfile._id} totalProfiles={userProfiles.length} setProfileNum={setProfileNum} name={userProfile.name} aboutMe={userProfile.aboutMe} userId1={userId} userId2={userProfile.userId} />
                 })
             }

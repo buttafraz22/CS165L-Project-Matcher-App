@@ -68,9 +68,10 @@ function SignUp() {
             fetch('http://localhost:5000/api/users', options)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 if (data.message === "Username already exist") {
                     alert(data.message);
-                } else if (data.message === "email already exist") {
+                } else if (data.message === "Email already exist") {
                     alert(data.message);
                 } else {
                     alert(data.message);

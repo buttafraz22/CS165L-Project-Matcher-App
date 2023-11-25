@@ -8,19 +8,21 @@ async function createUser(req, res) {
         const {password, ...remainingData} = req.body;
         let message = '';
 
-        if (!isUsernameUnique(remainingData.username)) {
+        const usernameCheck = await isUsernameUnique(remainingData.username);
+        const emailCheck = await isEmailUnique(remainingData.email);
+
+        if (!usernameCheck) {
             message = "Username already exist";
-        } else if (!isUsernameUnique(remainingData.email)) {
+        } else if (!emailCheck) {
             message = "Email already exist";
         } else {
             message = "User has been created";
+            bcrypt.hash(password, saltRounds, async function(err, hash) {
+                const user = await User({...remainingData, password: hash});
+                user.save();
+            });
         }
-
-        bcrypt.hash(password, saltRounds, async function(err, hash) {
-            const user = await User({...remainingData, password: hash});
-            user.save();
-            res.status(201).json({message});
-        });
+        res.status(201).json({message});
     } catch (err) {
         res.status(500).json({ error : err.message, })
     }
@@ -78,18 +80,22 @@ async function login(req, res) {
 
 async function isUsernameUnique(username) {
     const userFound = await User.findOne({username});
-    if (userFound) {
-        return false;
+    console.log(userFound);
+    if (userFound === null) {
+        return true;
     }
-    return true;
+    console.log("Username exist");
+    return false;
 }
 
 async function isEmailUnique(email) {
     const userFound = await User.findOne({email});
-    if (userFound) {
-        return false;
+    console.log(userFound);
+    if (userFound === null) {
+        return true;
     }
-    return true;
+    console.log("Email exist");
+    return false;
 }
 
 module.exports = {

@@ -21,12 +21,12 @@ function Navbar(props) {
                     <li className="nav-item">
                         <a className="nav-link text-light" href="/testimonials">Testimonials</a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link text-light" href="/contact">Contact</a>
-                    </li>
                     {
                         loginInfo.login && (
                             <>
+                                <li className="nav-item">
+                                    <a className="nav-link text-light" href="/chat">Chat</a>
+                                </li>
                                 <li className="nav-item">
                                     <a className="nav-link text-light" href="#user-profiles">Find your partner</a>
                                 </li>

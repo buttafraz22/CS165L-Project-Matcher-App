@@ -212,3 +212,81 @@ label .custom-picture{
 .testimonials {
   padding-top: 8% !important;
 }
+
+.chat {
+  width: 450px !important;
+}
+
+.chat input{
+  margin: 0 auto;
+  border-radius: 20px;
+  background-color: #E8DCDC;
+  width: 90%;
+  font-size: 20px;
+}
+
+.chat-card {
+  height: 70px;
+  width: 410px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.chat-card .chat-message-info:hover{
+  background-color: rgb(219, 232, 232);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.chat-card-img-wrapper {
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  float: left;
+  border-radius: 100%;
+}
+
+.chat-card-img-wrapper img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.chat-card-message-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-card-message-title h5{
+  margin: 0 !important;
+}
+
+.chat-card-message-title p{
+  margin: 0 !important;
+}
+
+.chat-scroller {
+  height: 420px;
+  overflow: scroll;
+}
+
+.selected-chat {
+  background-color: #E8DCDC;
+  width: 100%;
+  height: 578px;
+  border-radius: 40px 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-page {
+  display: flex;
+  padding-top: 5.7% !important;
+}
+
+.selected-chat h1{
+  font-family: Oleo Script;
+  font-size: 4rem;
+  color: #89375F;
+}

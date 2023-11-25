@@ -59,11 +59,22 @@ async function getAllProfiles(req, res) {
     try {
         const {userId} = req.params;
         const profilesFound = await Profile.find({ userId: { $ne: userId } });
+
+        // for (let i = 0; i < profilesFound; i++){
+        //     console.log("asa");
+        //     const userFound = await User.findOne({ id: profilesFound[i].userId});
+        //     console.log(userFound);
+        //     profilesFound[i].gender = userFound.gender;
+        // }
+
+        // console.log(profilesFound);
+
         if (profilesFound) {
             res.json({profilesFound, message: "Profile Found"});
         } else {
             res.json({isExist: false});
         }
+
     } catch (err) {
         res.status(500).json({ error : err.message })
     }

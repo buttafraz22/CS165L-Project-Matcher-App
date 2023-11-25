@@ -9,6 +9,7 @@ import React from "react";
 import {BrowserRouter as Main, Routes, Route} from "react-router-dom";
 import LoginState from '../context/auth/LoginState';
 import Protected from './Protected';
+import Chat from '../pages/Chat';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Routes>
               <Route exact path="/home/:userId" element={<Protected Component={Home} />} />
               <Route exact path="/profile/:username" element={<Protected Component={CreateProfile} />} />
+              <Route exact path="/chat" element={<Chat/>} />
               <Route exact path="/" element={<Login />} />
               <Route exact path="/signup" element={<SignUp />} />
               <Route exact path="/about" element={<About />} />
