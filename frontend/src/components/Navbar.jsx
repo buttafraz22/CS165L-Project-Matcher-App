@@ -10,13 +10,9 @@ function Navbar() {
     const {userId : id} = loginInfo;
     const {login : login} = loginInfo;
 
-    console.log(loginInfo);
-    console.log(id);
-    console.log(login);
-
     function onLogout() {
-        loginInfo.login = false;
-        loginInfo.userId = null;
+        loginInfo.updateLogin(false);
+        loginInfo.updateUserId(null);
         console.log(loginInfo);
         navigate("/");
     }

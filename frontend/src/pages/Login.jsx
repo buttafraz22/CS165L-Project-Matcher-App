@@ -6,7 +6,7 @@ import React from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import loginContext from '../context/auth/loginContext';
-
+import axios from 'axios';
 
 function Login() {
 
@@ -26,32 +26,21 @@ function Login() {
         }
     }
 
-    function onLogin() {
+    async function onLogin() {
         const userData = {username, password};
 
         const check = checkConstraints(userData);
 
         if (!check.isFailed) {
-            const options = {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData)
-              };
-            fetch('http://localhost:5000/api/login', options)
-            .then(response => response.json())
-            .then(data => {
-                if (data.userFound) {
-                    const userId = data.userFound._id;
-                    loginInfo.updateLogin(true);
-                    loginInfo.updateUserId(userId);
-                    navigate('/home');
-                } else {
-                    alert("Username and password is incorrect.")
-                }
-            })
-            .catch(error => console.error(error));
+            const response = await axios.post('http://localhost:5000/api/login', userData);
+            if (response.data.userFound) {
+                const userId = response.data.userFound._id;
+                loginInfo.updateLogin(true);
+                loginInfo.updateUserId(userId);
+                navigate('/home');
+            } else {
+                alert("Username and password are incorrect.");
+            }
         } else {
             alert(check.message);
         }

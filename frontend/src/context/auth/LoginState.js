@@ -10,6 +10,7 @@ function LoginState(props) {
     }
 
     function updateUserId(id) {
+        console.log(id);
         setUserId(id);
     }
 
