@@ -57,20 +57,28 @@ async function getProfile(req, res) {
 
 async function getAllProfiles(req, res) {
     try {
-        const {userId} = req.params;
+        const { userId } = req.params;
         const profilesFound = await Profile.find({ userId: { $ne: userId } });
+        const usersFound = await User.find({ _id: { $ne: userId } });
+        const userFound = await User.findOne({ _id: userId });
 
-        // for (let i = 0; i < profilesFound; i++){
-        //     console.log("asa");
-        //     const userFound = await User.findOne({ id: profilesFound[i].userId});
-        //     console.log(userFound);
-        //     profilesFound[i].gender = userFound.gender;
-        // }
+        oppositeGenderProfiles = [];
 
-        // console.log(profilesFound);
+        for (let i = 0; i < profilesFound.length; i++) {
+            for (let j = 0; j < usersFound.length; j++) {
+                console.log(profilesFound[i].userId);
+                console.log(usersFound[j]._id);
+                if (profilesFound[i].userId.toString() == usersFound[j]._id.toString()) {
+                    console.log("User Found");
+                    if (usersFound[j].gender != userFound.gender) {
+                        oppositeGenderProfiles.push(profilesFound[i]);
+                    }
+                }
+            }
+        }
 
         if (profilesFound) {
-            res.json({profilesFound, message: "Profile Found"});
+            res.json({profilesFound: oppositeGenderProfiles, message: "Profile Found"});
         } else {
             res.json({isExist: false});
         }

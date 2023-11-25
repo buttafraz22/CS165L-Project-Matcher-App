@@ -34,7 +34,7 @@ function CreateProfile() {
             ...username,
         }
 
-        const check = checkConstraints(profileData);
+        const check = checkConstraints({...profileData, profilePicture});
 
         if (!check.isFailed) {
             const formData = new FormData();

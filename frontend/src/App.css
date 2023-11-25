@@ -54,10 +54,10 @@
   font-size: 1.2rem;
 }
 
-/* .nav-item button:hover{
+.nav-item button:hover{
   text-decoration-line: none;
-  color: black;
-} */
+  color: aqua !important;
+}
 
 .signin-signup-grid {
   display: grid;

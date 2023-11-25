@@ -68,13 +68,15 @@ async function login(req, res) {
     try {
         const {username, password} = req.body;
         const userFound = await User.findOne({username});
-        bcrypt.compare(password, userFound.password, async function(err, result) {
-            if (result) {       
-                res.json({userFound});
-            } else {
-                res.json({isExist: false});
-            }
-        });
+        if(userFound){
+            bcrypt.compare(password, userFound.password, async function(err, result) {
+                if (result) {       
+                    res.json({userFound});
+                }
+            });
+        } else {
+            res.json({isExist: false});
+        }
     } catch (err) {
         res.status(500).json({ error : err.message })
     }
