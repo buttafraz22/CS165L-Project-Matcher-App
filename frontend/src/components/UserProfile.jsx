@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function UserProfile(props) {
     const [isMatched, setMatched] = useState(false);
+    const navigate = useNavigate();
 
     const matchData = {userId1: props.userId1, userId2: props.userId2}
 
@@ -53,12 +55,12 @@ function UserProfile(props) {
                     <img src="/images/profile-picture.jpg" alt="user-profile" />
                 </div>
                 <h1>{props.name}</h1>
-                <p>{props.aboutMe.length > 315 ? props.aboutMe.slice(0, 315) : props.aboutMe}...</p>
+                <p>{props.aboutMe.length > 315 ? props.aboutMe.slice(0, 315)+"..." : props.aboutMe}</p>
                 <button onClick={updateProfileNum}><i className="fa-solid fa-xmark fa-2xl" style={{color: "grey"}}></i></button>
                 <button onClick={onCheck}><i className={isMatched ? "fa-solid fa-heart fa-2xl" : "fa-regular fa-heart fa-2xl"} style={{color: "#ff2600"}}></i></button>
                 {
                     isMatched &&
-                    <button><i class="fa-solid fa-message fa-2xl" style={{color: "grey"}}></i></button>
+                    <button><i class="fa-solid fa-message fa-2xl" style={{color: "grey"}} onClick={()=>navigate("/chat")}></i></button>
                 }
             </div>
         </>

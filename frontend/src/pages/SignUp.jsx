@@ -4,7 +4,7 @@ import InputField from '../components/InputField';
 import {useContext, useReducer, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import loginContext from '../context/auth/loginContext';
 
 const reducer = (currentState, action) => {
@@ -85,9 +85,6 @@ function SignUp() {
         } else {
             alert(check.message);
         }
-        // 6561d9f14808fab42a07f97e
-
-
     }
 
     function checkConstraints(signUpData) {
@@ -179,8 +176,8 @@ function SignUp() {
                         </Form.Select>
                     </div>
                     <div className="form-buttons">
-                        <a className="btn btn-secondary mb-3 w-100" onClick={onSignUp}>Sign Up</a>
-                        <a className="btn btn-outline-secondary w-100" href='/'>Login</a>
+                        <button className="btn btn-secondary mb-3 w-100" onClick={onSignUp}>Sign Up</button>
+                        <Link className="btn btn-outline-secondary w-100" to='/'>Login</Link>
                     </div>
                 </form>
             </div>

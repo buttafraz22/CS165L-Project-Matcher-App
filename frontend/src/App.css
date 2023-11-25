@@ -231,7 +231,7 @@ label .custom-picture{
 }
 
 .chat-card {
-  height: 70px;
+  height: 90px;
   width: 410px;
   overflow: hidden;
   margin: 0 auto;
@@ -243,8 +243,8 @@ label .custom-picture{
 }
 
 .chat-card-img-wrapper {
-  height: 50px;
-  width: 50px;
+  height: 70px;
+  width: 70px;
   overflow: hidden;
   float: left;
   border-radius: 100%;

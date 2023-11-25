@@ -44,7 +44,6 @@ function Login() {
         } else {
             alert(check.message);
         }
-
     }
 
     function checkConstraints(loginData) {
@@ -85,8 +84,8 @@ function Login() {
                         <a href="#"><small id="emailHelp" className="form-text text-muted" style={{textAlign: 'end'}}>Forget Password?</small></a>
                     </div>
                     <div className="form-buttons">
-                        <a className="btn btn-secondary mb-3 w-100" onClick={onLogin}>Login</a>
-                        <a className="btn btn-outline-secondary w-100" href='/signup'>Sign Up</a>
+                        <button className="btn btn-secondary mb-3 w-100" onClick={onLogin}>Login</button>
+                        <Link className="btn btn-outline-secondary w-100" to='/signup'>Sign Up</Link>
                     </div>
                 </form>
             </div>

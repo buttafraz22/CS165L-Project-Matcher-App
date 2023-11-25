@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import InputField from "../components/InputField";
 import React from "react";
 import Form from 'react-bootstrap/Form';
@@ -20,10 +19,13 @@ function CreateProfile() {
 
     const loginInfo = useContext(loginContext);
 
+    console.log(loginInfo);
+
     const navigate = useNavigate();
     let params = useParams();
 
     function onSubmitteed(e) {
+        e.preventDefault();
         let username = params;
 
         let profileData = {
@@ -44,7 +46,7 @@ function CreateProfile() {
     
             axios.post('http://localhost:5000/api/profiles', formData)
             .then(res=>{
-                console.log(res);
+                console.log(res.data);
                 if (res.data.message) {
                     alert(res.data.message);
                     console.log(loginInfo);
@@ -64,8 +66,8 @@ function CreateProfile() {
         for (let key in profileData) {
             if (profileData.hasOwnProperty(key)) {
                 if (
-                    (profileData[key] === '') || (profileData[key] === null)
-                ) {
+                    (profileData[key] === '') || (profileData[key] === null) || (profileData[key] === "disable")
+                )  {
                     return {isFailed: true, message: `Please fill out the ${key}`};
                 }
             }
@@ -81,15 +83,15 @@ function CreateProfile() {
         } else {
             setRelationshipStatus(value);
         }
-
     }
 
-    function onCleared() {
+    function onCleared(e) {
+        e.preventDefault()
         setName('');
         setAboutMe('');
         setProfileType(null);
         setRelationshipStatus(null);
-        setProfilePicture('');
+        setProfilePicture(null);
         setVisualizePicture('/images/profile-picture.jpg');
     }
 
@@ -115,7 +117,7 @@ function CreateProfile() {
     return (
         <>
             <div className="profile-grid">
-                <form className="mx-5 mb-5" onSubmit={onSubmitteed}>
+                <form className="mx-5 mb-5" onSubmit={(e)=>e.preventDefault()}>
                     <h2 className="text-center">Setup Profile</h2>
                     <div className="form-inputs">
                         <div className="input-sections">
@@ -162,8 +164,8 @@ function CreateProfile() {
                         </div>
                     </div>
                     <div className="form-buttons">
-                        <a className="btn btn-secondary mb-3 w-100" onClick={onSubmitteed}>Create</a>
-                        <a className="btn btn-outline-secondary w-100" onClick={onCleared}>Clear all</a>
+                        <button className="btn btn-secondary mb-3 w-100" onClick={onSubmitteed}>Create</button>
+                        <button className="btn btn-outline-secondary w-100" onClick={onCleared}>Clear all</button>
                     </div>
                 </form>
                 <div className="image-wrapper" style={{borderRadius: "20px 0 0 20px"}}>

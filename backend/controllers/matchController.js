@@ -55,7 +55,7 @@ async function isMatched(req, res) {
 async function deleteMatch(req, res) {
     try {
         const {userId1, userId2} = req.body;
-        Match.deleteOne({userId1: userId1, userId2: userId2})
+        Match.deleteOne({ $or: [{ userId1, userId2 }, { userId1: userId2, userId2: userId1 }] })
         .then(()=>{
             res.status(201).json({message: true});
         })
@@ -69,7 +69,7 @@ async function deleteMatch(req, res) {
 
 async function matchedProfiles(req, res) {
     try {
-        const { userId } = req.body;
+        const { userId } = req.query;
         let profiles = [];
         let profile = {};
         const matches = await Match.find({ $or: [{ userId1: userId}, { userId2: userId }] });
