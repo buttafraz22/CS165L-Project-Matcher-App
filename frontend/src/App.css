@@ -50,6 +50,15 @@
   font-size: 1.2rem;
 }
 
+.nav-item button {
+  font-size: 1.2rem;
+}
+
+/* .nav-item button:hover{
+  text-decoration-line: none;
+  color: black;
+} */
+
 .signin-signup-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;

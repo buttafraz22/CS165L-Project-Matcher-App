@@ -43,9 +43,10 @@ function Login() {
             .then(response => response.json())
             .then(data => {
                 if (data.userFound) {
-                    console.log(data.userFound);
+                    const userId = data.userFound._id;
                     loginInfo.updateLogin(true);
-                    navigate('/home/' + data.userFound._id);
+                    loginInfo.updateUserId(userId);
+                    navigate('/home');
                 } else {
                     alert("Username and password is incorrect.")
                 }
@@ -71,7 +72,6 @@ function Login() {
 
     return (
         <>
-            <Navbar />
             <div className="signin-signup-grid">
                 <div className="image-wrapper">
                     <img src="./images/image1.png" alt="" />

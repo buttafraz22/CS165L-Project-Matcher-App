@@ -2,10 +2,11 @@ import Navbar from "../components/Navbar";
 import InputField from "../components/InputField";
 import React from "react";
 import Form from 'react-bootstrap/Form';
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import loginContext from "../context/auth/loginContext";
 
 
 function CreateProfile() {
@@ -16,6 +17,8 @@ function CreateProfile() {
     const [relationshipStatus, setRelationshipStatus] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [visualizePicture, setVisualizePicture] = useState("/images/profile-picture.jpg");
+
+    const loginInfo = useContext(loginContext);
 
     const navigate = useNavigate();
     let params = useParams();
@@ -44,7 +47,8 @@ function CreateProfile() {
                 console.log(res);
                 if (res.data.message) {
                     alert(res.data.message);
-                    navigate('/home/' + res.data._id);
+                    console.log(loginInfo);
+                    navigate('/home');
                 } else {
                     alert('Error');
                 }
@@ -110,7 +114,6 @@ function CreateProfile() {
 
     return (
         <>
-            <Navbar/>
             <div className="profile-grid">
                 <form className="mx-5 mb-5" onSubmit={onSubmitteed}>
                     <h2 className="text-center">Setup Profile</h2>

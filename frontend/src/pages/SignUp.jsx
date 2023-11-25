@@ -69,12 +69,14 @@ function SignUp() {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if (data.message === "Username already exist") {
-                    alert(data.message);
-                } else if (data.message === "Email already exist") {
-                    alert(data.message);
+                if (data.requestedData.isFailed) {
+                    alert(data.requestedData.message);
+                } else if (data.requestedData.isFailed) {
+                    alert(data.requestedData.message);
                 } else {
-                    alert(data.message);
+                    alert(data.requestedData.message);
+                    console.log(data.requestedData);
+                    loginInfo.updateUserId(data.requestedData.id);
                     loginInfo.updateLogin(true);
                     navigate('/profile/'+state.username);
                 }
@@ -83,6 +85,7 @@ function SignUp() {
         } else {
             alert(check.message);
         }
+        // 6561d9f14808fab42a07f97e
 
 
     }
@@ -137,7 +140,6 @@ function SignUp() {
 
     return (
         <>
-            <Navbar />
             <div className="signin-signup-grid">
                 <div className="image-wrapper">
                     <img src="./images/image1.png" alt="" />

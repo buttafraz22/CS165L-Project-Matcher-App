@@ -10,22 +10,26 @@ import {BrowserRouter as Main, Routes, Route} from "react-router-dom";
 import LoginState from '../context/auth/LoginState';
 import Protected from './Protected';
 import Chat from '../pages/Chat';
+import Navbar from './Navbar';
 
 function App() {
   return (
+    <>
     <LoginState>
       <Main>
-          <Routes>
-              <Route exact path="/home/:userId" element={<Protected Component={Home} />} />
-              <Route exact path="/profile/:username" element={<Protected Component={CreateProfile} />} />
-              <Route exact path="/chat" element={<Chat/>} />
-              <Route exact path="/" element={<Login />} />
-              <Route exact path="/signup" element={<SignUp />} />
-              <Route exact path="/about" element={<About />} />
-              <Route exact path="/testimonials" element={<Testmonials />} />
-          </Routes>
+        <Navbar />
+        <Routes>
+          <Route exact path="/home" element={<Protected Component={Home} />} />
+          <Route exact path="/profile/:username" element={<Protected Component={CreateProfile} />} />
+          <Route exact path="/chat" element={<Protected Component={Chat} />} />
+          <Route exact path="/" element={<Login />} />
+          <Route exact path="/signup" element={<SignUp />} />
+          <Route exact path="/about" element={<About />} />
+          <Route exact path="/testimonials" element={<Testmonials />} />
+        </Routes>
       </Main>
     </LoginState>
+    </>
   );
 }
 

@@ -7,7 +7,6 @@ import "../App.css"
 function Testimonials() {
     return (
         <>
-            <Navbar />
             <div className="testimonials test mx-3 p-5">
                 <h1 className="mb-4" style={{color: "#CE5959"}}>Testimonials</h1>
                 {testimonialsData.map((testimonial)=><TestimonialCard name={testimonial.name} date={testimonial.date} feedback={testimonial.feedback} />)}

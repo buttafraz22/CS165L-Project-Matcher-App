@@ -1,13 +1,16 @@
 import { useParams } from 'react-router-dom';
 import '../App.css';
 import Navbar from '../components/Navbar';
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import UserProfile from '../components/UserProfile';
+import loginContext from '../context/auth/loginContext';
 
 function Home() {
 
-    const userId = useParams().userId;
+    const loginInfo = useContext(loginContext);
+    const userId = loginInfo.userId;
+    console.log(userId);
     const [profileImage, setProfileImage] = useState('');
     const [userProfiles, setUserProfiles] = useState([]);
     const [profileNum, setProfileNum] = useState(0);
@@ -46,7 +49,6 @@ function Home() {
 
     return (
         <>
-            <Navbar userId={userId} image=""/>
             <div id='user-profiles'>
             {
                 userProfiles.slice(profileNum, profileNum+1)

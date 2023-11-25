@@ -4,7 +4,6 @@ import ChatCard from "../components/ChatCard";
 function Chat() {
     return (
         <>
-            <Navbar />
             <div className="chat-page">
                 <div className="chat border-right">
                     <input className="form-control my-5" type="input" placeholder="Search" />
