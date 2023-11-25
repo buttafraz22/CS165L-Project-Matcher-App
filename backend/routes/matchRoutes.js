@@ -5,5 +5,6 @@ const matchController = require("../controllers/matchController");
 router.post("/matches", matchController.createMatch);
 router.post("/is-matched", matchController.isMatched);
 router.post("/un-match", matchController.deleteMatch);
+router.get("/matched-profiles", matchController.matchedProfiles);
 
 module.exports = router;

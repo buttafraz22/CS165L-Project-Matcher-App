@@ -1,5 +1,6 @@
 const User = require("../models/user");
-const Match = require("../models/match")
+const Match = require("../models/match");
+const Profile = require("../models/profile");
 
 async function createMatch(req, res) {
     try {
@@ -61,27 +62,45 @@ async function deleteMatch(req, res) {
         .catch((err)=>{
             res.status(201).json({message: false});
         })
-        // const exist = await isExist(userId1, userId2);
-        // if (!exist) {
-        //     const user1 = await User.findOne({_id: userId1});
-        //     const user2 = await User.findOne({_id: userId2});
-            
-        //     const match = await Match({userId1: user1, userId2: user2, activeStatus: true});
-        //     match.save();
-        //     if (match != null) {
-        //         const message = 'You are matched with ' + user2.username + '.';
-        //         res.status(201).json({message});
-        //     } else {
-        //         let err = 'There is a error.';
-        //         res.status(201).json({err});
-        //     }
-        // } else {
-        //     const message = 'Already matched.';
-        //     res.status(201).json({message});
-        // }
-
     } catch (err) {
         res.status(500).json({ error : err.message, })
+    }
+}
+
+async function matchedProfiles(req, res) {
+    try {
+        const { userId } = req.body;
+        let profiles = [];
+        let profile = {};
+        const matches = await Match.find({ $or: [{ userId1: userId}, { userId2: userId }] });
+        for (let i = 0; i < matches.length; i++) {
+            if (matches[i].userId1.toString() !== userId) {
+                profile = await getProfile(matches[i].userId1.toString());
+            } else {
+                profile = await getProfile(matches[i].userId2.toString());
+            }
+            profiles.push(profile)
+        }
+        if (matches !== null) {
+            res.status(201).json({message: true, profiles});
+        } else {
+            res.status(201).json({message: false});
+        }
+    } catch (err) {
+        res.status(500).json({ error : err.message, })
+    }
+}
+
+async function getProfile(userId) {
+    try {
+        const profile = await Profile.findOne({userId})
+        if (profile) {
+            return profile;
+        } else {
+            return {isFailed: true}
+        }
+    } catch(err){
+        console.log(err);
     }
 }
 
@@ -89,5 +108,6 @@ async function deleteMatch(req, res) {
 module.exports = {
     createMatch,
     isMatched,
-    deleteMatch
+    deleteMatch,
+    matchedProfiles
 }

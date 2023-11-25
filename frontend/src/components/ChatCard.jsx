@@ -9,7 +9,7 @@ const ChatCard = () => {
                     <h5>Title</h5>
                     <small>12:09PM</small>
                 </div>
-                <p>Hey! how you doing?</p>
+                <p className="mt-2">Hey! how you doing?</p>
                 <hr />
             </div>
         </div>

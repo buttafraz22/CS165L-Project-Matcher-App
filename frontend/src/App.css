@@ -222,10 +222,6 @@ label .custom-picture{
   padding-top: 8% !important;
 }
 
-.chat {
-  width: 450px !important;
-}
-
 .chat input{
   margin: 0 auto;
   border-radius: 20px;
@@ -243,7 +239,6 @@ label .custom-picture{
 
 .chat-card .chat-message-info:hover{
   background-color: rgb(219, 232, 232);
-  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -277,6 +272,7 @@ label .custom-picture{
 .chat-scroller {
   height: 420px;
   overflow: scroll;
+  width: 450px;
 }
 
 .selected-chat {

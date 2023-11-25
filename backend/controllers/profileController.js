@@ -66,10 +66,7 @@ async function getAllProfiles(req, res) {
 
         for (let i = 0; i < profilesFound.length; i++) {
             for (let j = 0; j < usersFound.length; j++) {
-                console.log(profilesFound[i].userId);
-                console.log(usersFound[j]._id);
                 if (profilesFound[i].userId.toString() == usersFound[j]._id.toString()) {
-                    console.log("User Found");
                     if (usersFound[j].gender != userFound.gender) {
                         oppositeGenderProfiles.push(profilesFound[i]);
                     }
@@ -82,7 +79,6 @@ async function getAllProfiles(req, res) {
         } else {
             res.json({isExist: false});
         }
-
     } catch (err) {
         res.status(500).json({ error : err.message })
     }

@@ -10,13 +10,6 @@ function Chat() {
                     <div className="chat-scroller">
                         <ChatCard />
                         <ChatCard />
-                        <ChatCard />
-                        <ChatCard />
-                        <ChatCard />
-                        <ChatCard />
-                        <ChatCard />
-                        <ChatCard />
-                        <ChatCard />
                     </div>
                 </div>
                 <div className="selected-chat">
