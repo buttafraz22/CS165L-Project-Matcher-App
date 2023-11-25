@@ -21,7 +21,8 @@ function App() {
         <Routes>
           <Route exact path="/home" element={<Protected Component={Home} />} />
           <Route exact path="/profile/:username" element={<Protected Component={CreateProfile} />} />
-          <Route exact path="/chat" element={<Protected Component={Chat} />} />
+          {/* <Route exact path="/chat" element={<Protected Component={Chat} />} /> */}
+          <Route exact path="/chat" element={<Chat/>} />
           <Route exact path="/" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/about" element={<About />} />

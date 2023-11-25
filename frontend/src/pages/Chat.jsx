@@ -8,6 +8,10 @@ import ChatInput from "../components/ChatInput";
 
 const socket = io.connect("http://localhost:5000");
 
+let name = "";
+
+name = prompt("Enter your name: ")
+
 function Chat() {
 
     const [userProfiles, setUserProfiles] = useState([]);
@@ -18,21 +22,22 @@ function Chat() {
 
     useEffect(()=>{
         console.log(loginInfo);
-        getProfiles();
+        // getProfiles();
+        
         socket.emit("join_room", room);
     },[])
 
-    async function getProfiles() {
-        const userInfo = {userId : loginInfo.userId};
+    // async function getProfiles() {
+    //     const userInfo = {userId : loginInfo.userId};
 
-        const response = await axios.get('http://localhost:5000/api/matched-profiles?userId='+userInfo.userId);
-        if (response.data.profiles) {
-            const profiles = response.data.profiles;
-            setUserProfiles(profiles);
-        } else {
-            alert("Data is not available.");
-        }
-    }
+    //     const response = await axios.get('http://localhost:5000/api/matched-profiles?userId='+userInfo.userId);
+    //     if (response.data.profiles) {
+    //         const profiles = response.data.profiles;
+    //         setUserProfiles(profiles);
+    //     } else {
+    //         alert("Data is not available.");
+    //     }
+    // }
 
     return (
         <>
@@ -48,10 +53,10 @@ function Chat() {
                         }
                     </div>
                 </div>
-                <div className="selected-chat">
+                {/* <div className="selected-chat"> */}
                     {/* <h1>Matcher App</h1> */}
-                    <ChatInput name="Abdur Rehman" socket={socket} room={room}/>
-                </div>
+                {/* </div> */}
+                <ChatInput name={name} socket={socket} room={room}/>
             </div>
         </>
     )
