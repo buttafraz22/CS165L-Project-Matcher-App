@@ -115,14 +115,14 @@ function SignUp() {
         let name = e.target.name;
 
         if (name === "username") {
-            dispatch({type: 'setUsername', payload: value});
+
+            dispatch({type: 'setUsername', payload: value.toLowerCase()});
         } else if (name === "password") {
-            console.log("I am in");
             dispatch({type: 'setPassword', payload: value});
         } else if (name === "email") {
             dispatch({type: 'setEmail', payload: value});
         } else if (name === "age") {
-            dispatch({type: 'setAge', payload: value});
+            setAge(value);
         }
     }
 

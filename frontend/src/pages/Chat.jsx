@@ -3,15 +3,23 @@ import ChatCard from "../components/ChatCard";
 import { useContext, useEffect, useState } from "react";
 import loginContext from "../context/auth/loginContext";
 import axios from "axios";
+import io from 'socket.io-client';
+import ChatInput from "../components/ChatInput";
+
+const socket = io.connect("http://localhost:5000");
 
 function Chat() {
+
     const [userProfiles, setUserProfiles] = useState([]);
 
     const loginInfo = useContext(loginContext);
 
+    const room = 123;
+
     useEffect(()=>{
         console.log(loginInfo);
         getProfiles();
+        socket.emit("join_room", room);
     },[])
 
     async function getProfiles() {
@@ -41,7 +49,8 @@ function Chat() {
                     </div>
                 </div>
                 <div className="selected-chat">
-                    <h1>Matcher App</h1>
+                    {/* <h1>Matcher App</h1> */}
+                    <ChatInput name="Abdur Rehman" socket={socket} room={room}/>
                 </div>
             </div>
         </>
