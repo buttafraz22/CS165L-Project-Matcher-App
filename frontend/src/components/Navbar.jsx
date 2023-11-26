@@ -45,7 +45,7 @@ function Navbar() {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-light" to="#">
-                                        My Profile
+                                        {loginInfo.username}
                                     </Link>
                                 </li>
                                 <li className="nav-item">

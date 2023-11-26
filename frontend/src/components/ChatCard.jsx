@@ -1,14 +1,17 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import messagesContext from "../context/user-messages/messagesContext";
 
 const ChatCard = (props) => {
     const message = `You can now chat with ${props.name}`;
+    const messagesList = useContext(messagesContext);
 
     useEffect(()=>{
+        console.log(messagesList);
     }, [])
 
     async function saveUserId() {
-        props.onClicked(props.id)
-        console.log(props);
+        props.setUserId(props.id);
+        messagesList.updateMessages([]);
     }
 
     return (
