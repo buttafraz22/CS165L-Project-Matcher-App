@@ -1,8 +1,18 @@
+import { useEffect } from "react";
+
 const ChatCard = (props) => {
     const message = `You can now chat with ${props.name}`;
 
+    useEffect(()=>{
+    }, [])
+
+    async function saveUserId() {
+        props.onClicked(props.id)
+        console.log(props);
+    }
+
     return (
-        <div className="chat-card">
+        <div className="chat-card" onClick={saveUserId}>
             <div className="chat-card-img-wrapper mr-2">
                 <img src="/images/profile-picture.jpg"/>
             </div>

@@ -8,25 +8,25 @@ import ChatInput from "../components/ChatInput";
 
 const socket = io.connect("http://localhost:5000");
 
-let name = "";
-
-// name = prompt("Enter your name: ")
-
 function Chat() {
 
     const [userProfiles, setUserProfiles] = useState([]);
-    const [username, setUsername] = useState();
+    const [userId, setUserId] = useState("");
+    const [room, setRoom] = useState(null);
 
     const loginInfo = useContext(loginContext);
 
-    const room = 123;
-
     useEffect(()=>{
-        console.log(loginInfo);
         getProfiles();
-        
-        socket.emit("join_room", room);
-    },[])
+        if (userId !== "") {
+            getRoom();
+        }
+        if (room !== null) {
+            socket.emit("join_room", room);
+        }
+        console.log("I am here");
+        console.log("Room: ", room);
+    },[userId, room])
 
     async function getProfiles() {
         const userInfo = {userId : loginInfo.userId};
@@ -35,6 +35,17 @@ function Chat() {
         if (response.data.profiles) {
             const profiles = response.data.profiles;
             setUserProfiles(profiles);
+        } else {
+            alert("Data is not available.");
+        }
+    }
+
+    async function getRoom() {
+        const response = await axios.get('http://localhost:5000/api/get-room?userId1='+loginInfo.userId+'&userId2='+userId);
+        if (response.data.chat) {
+            const chat = response.data.chat;
+            console.log(chat);
+            setRoom(chat.chatRoom);
         } else {
             alert("Data is not available.");
         }
@@ -49,15 +60,19 @@ function Chat() {
                     <div className="chat-scroller">
                         {
                             userProfiles.map((profile)=>{
-                                return <ChatCard name={profile.name} />
+                                return <ChatCard key={profile._id} id={profile.userId} name={profile.name} onClicked={setUserId} getRoom={getRoom} />
                             })
                         }
                     </div>
                 </div>
-                {/* <div className="selected-chat"> */}
-                    {/* <h1>Matcher App</h1> */}
-                {/* </div> */}
-                <ChatInput name={name} socket={socket} room={room}/>
+                {
+                    userId === "" ?
+                    <div className="selected-chat">
+                        <h1>Matcher App</h1>
+                    </div>
+                    :
+                    <ChatInput name={loginInfo.username} socket={socket} room={room}/>
+                }
             </div>
         </>
     )

@@ -7,6 +7,7 @@ const { Server } = require('socket.io');
 const userRoutes = require("./routes/userRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const matchRoutes = require("./routes/matchRoutes");
+const chatRoutes = require("./routes/chatRoutes")
 
 require("./utils/db");
  
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use("/api", userRoutes);
 app.use("/api", profileRoutes);
 app.use("/api", matchRoutes);
+app.use("/api", chatRoutes);
 
 const server = http.createServer(app);
 

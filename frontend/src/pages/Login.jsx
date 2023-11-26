@@ -35,8 +35,10 @@ function Login() {
             const response = await axios.post('http://localhost:5000/api/login', userData);
             if (response.data.userFound) {
                 const userId = response.data.userFound._id;
+                const username = response.data.userFound.username;
                 loginInfo.updateLogin(true);
                 loginInfo.updateUserId(userId);
+                loginInfo.updateUsername(username);
                 navigate('/home');
             } else {
                 alert("Username and password are incorrect.");
