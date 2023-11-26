@@ -1,40 +1,34 @@
 const User = require("../models/user");
 const Match = require("../models/match");
 const Profile = require("../models/profile");
-const chatController = require("./chatController");
+const Chat = require("../models/chat");
 
-async function createMatch(req, res) {
+async function createChat(user1, user2) {
     try {
-        const {userId1, userId2} = req.body;
-        const exist = await isExist(userId1, userId2);
+        const exist = await isExist(user1._id, user2._id);
         if (!exist) {
-            const user1 = await User.findOne({_id: userId1});
-            const user2 = await User.findOne({_id: userId2});
-
-            chatController.createChat(user1, user2);
+            let users = [user1, user2];
             
-            const match = await Match({userId1: user1, userId2: user2, activeStatus: true});
-            match.save();
-            if (match != null) {
-                const message = 'You are matched with ' + user2.username + '.';
-                res.status(201).json({message});
+            const chat = await Chat({chatRoom: Math.floor(Math.random() * 999) + 100, participants: users, activeStatus: true});
+            console.log(chat);
+            chat.save();
+            if (chat != null) {
+                return true;
             } else {
-                let err = 'There is a error.';
-                res.status(201).json({err});
+                return false;
             }
         } else {
-            const message = 'Already matched.';
-            res.status(201).json({message});
+            return false;
         }
 
     } catch (err) {
-        res.status(500).json({ error : err.message, })
+        return false;
     }
 }
 
 async function isExist(userId1, userId2) {
-    const match = await Match.findOne({ $or: [{ userId1, userId2 }, { userId1: userId2, userId2: userId1 }] });
-    if (match !== null) {
+    const chat = await Chat.findOne({ $or: [{ 'participants.0': userId1, 'participants.1' : userId2 }, { 'participants.0': userId2, 'participants.1': userId1 }] });
+    if (chat !== null) {
         return true;
     } else {
         return false;
@@ -55,19 +49,17 @@ async function isMatched(req, res) {
     }
 }
 
-async function deleteMatch(req, res) {
+async function deleteChat(userId1, userId2) {
     try {
-        const {userId1, userId2} = req.body;
-        chatController.deleteChat(userId1, userId2);
-        Match.deleteOne({ $or: [{ userId1, userId2 }, { userId1: userId2, userId2: userId1 }] })
+        Chat.deleteOne({ $or: [{ 'participants.0': userId1, 'participants.1' : userId2 }, { 'participants.0': userId2, 'participants.1': userId1 }] })
         .then(()=>{
-            res.status(201).json({message: true});
+            return true;
         })
         .catch((err)=>{
-            res.status(201).json({message: false});
+            return false;
         })
     } catch (err) {
-        res.status(500).json({ error : err.message, })
+        return false;
     }
 }
 
@@ -110,8 +102,6 @@ async function getProfile(userId) {
 
 
 module.exports = {
-    createMatch,
-    isMatched,
-    deleteMatch,
-    matchedProfiles
+    createChat,
+    deleteChat
 }

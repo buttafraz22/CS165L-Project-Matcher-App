@@ -176,7 +176,7 @@ function CreateProfile() {
     );
 }
 
-function convertToBase64(file){ 
+function convertToBase64(file){
     return new Promise((response, reject)=>{
         let fileReader = new FileReader();
         fileReader.readAsDataURL(file);

@@ -10,11 +10,12 @@ const socket = io.connect("http://localhost:5000");
 
 let name = "";
 
-name = prompt("Enter your name: ")
+// name = prompt("Enter your name: ")
 
 function Chat() {
 
     const [userProfiles, setUserProfiles] = useState([]);
+    const [username, setUsername] = useState();
 
     const loginInfo = useContext(loginContext);
 
@@ -22,22 +23,22 @@ function Chat() {
 
     useEffect(()=>{
         console.log(loginInfo);
-        // getProfiles();
+        getProfiles();
         
         socket.emit("join_room", room);
     },[])
 
-    // async function getProfiles() {
-    //     const userInfo = {userId : loginInfo.userId};
+    async function getProfiles() {
+        const userInfo = {userId : loginInfo.userId};
 
-    //     const response = await axios.get('http://localhost:5000/api/matched-profiles?userId='+userInfo.userId);
-    //     if (response.data.profiles) {
-    //         const profiles = response.data.profiles;
-    //         setUserProfiles(profiles);
-    //     } else {
-    //         alert("Data is not available.");
-    //     }
-    // }
+        const response = await axios.get('http://localhost:5000/api/matched-profiles?userId='+userInfo.userId);
+        if (response.data.profiles) {
+            const profiles = response.data.profiles;
+            setUserProfiles(profiles);
+        } else {
+            alert("Data is not available.");
+        }
+    }
 
     return (
         <>
