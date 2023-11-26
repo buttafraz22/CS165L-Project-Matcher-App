@@ -38,10 +38,14 @@ io.on("connection", (socket)=>{
         socket.join(data);
     })
 
-    socket.on("send_message", (data)=>{
+    socket.on("send_message", (data, ackCallback) => {
         console.log("Data: ", data);
-        socket.to(data.room).emit("receive_message", data);
-    })
+        ackCallback(data);
+      
+        socket.to(data.room).emit("receive_message", data, () => {
+            console.log("Acknowledgment from client received");
+        });
+    });
 
     socket.on("disconnect", ()=>{
         console.log("User disconnected: ", socket.id);

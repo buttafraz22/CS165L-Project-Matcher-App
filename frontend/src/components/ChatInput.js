@@ -12,17 +12,25 @@ function ChatInput(props) {
                 room: props.room,
                 time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
             }
-            await props.socket.emit("send_message", messageData)
-            setMessagesList((prevValue)=>[...prevValue, messageData]);
+            await props.socket.emit("send_message", messageData, (ackCallback) => {
+                console.log("Call back: ",ackCallback);
+                setMessagesList((prevValue) => [...prevValue, ackCallback]);
+            });
             setMessage("");
         }
     }
 
     useEffect(()=>{
-        props.socket.on("receive_message", (data)=>{
-            setMessagesList((prevValue)=>[...prevValue, data]);
-        })
-    }, [props.socket])
+        const handleReceiveMessage = (data, ackCallback) => {
+            console.log("Received message:", data);
+            ackCallback();
+            setMessagesList((prevValue) => [...prevValue, data]);
+        };
+        props.socket.on("receive_message", handleReceiveMessage);        
+        return () => {
+            props.socket.off("receive_message", handleReceiveMessage);
+        };
+    }, [props.socket, setMessagesList])
 
     return (
         <div className="chat-input border-left">
@@ -34,10 +42,10 @@ function ChatInput(props) {
                     messagesList.map((messageContent)=>{
                         return (
                             <div>
-                                <div className="message my-2">
+                                <div className="message my-2" id = {props.name === messageContent.author ? "you" : "other"}>
                                     <div 
                                         className="message-content px-4 rounded-right"
-                                        id = {props.name === messageContent.author ? "you" : "other"}
+                                        
                                     >
                                         <p className="py-2">{messageContent.message}</p>
                                     </div>

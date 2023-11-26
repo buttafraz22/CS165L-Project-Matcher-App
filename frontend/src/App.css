@@ -317,6 +317,7 @@ label .custom-picture{
 .chat-input-body {
   height: 370px;
   overflow: scroll;
+  width: 100%;
 }
 
 .chat-input-footer {
@@ -333,6 +334,7 @@ label .custom-picture{
 .message {
   position: relative;
   display: inline-block;
+  margin-right: 20px;
 }
 
 .message-meta {

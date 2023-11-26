@@ -63,9 +63,6 @@ async function getRoom(req, res) {
     }
 }
 
-// getRoom
-
-
 module.exports = {
     createChat,
     deleteChat,
