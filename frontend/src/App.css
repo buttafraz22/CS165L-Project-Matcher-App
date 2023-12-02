@@ -350,6 +350,27 @@ label .custom-picture{
   font-weight: bold;
 }
 
+.my-profile {
+  text-align: center;
+  padding-top: 60px;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.my-profile-image-wrapper {
+  height: 350px;
+  width: 350px;
+  overflow: hidden;
+  margin: 0 auto;
+  background-color: black;
+}
+
+.my-profile-image-wrapper img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
 /* #you {
   justify-content: flex-start;
 }

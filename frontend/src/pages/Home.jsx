@@ -14,7 +14,7 @@ function Home() {
     useEffect(()=>{
         getAllUserProfiles();
         getMyProfile();
-    }, [getAllUserProfiles, getMyProfile])
+    }, [])
 
     function getAllUserProfiles() {
         axios.get('http://localhost:5000/api/profiles/'+userId)

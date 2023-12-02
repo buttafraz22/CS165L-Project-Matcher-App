@@ -12,6 +12,7 @@ import MessagesState from '../context/user-messages/MessagesState';
 import Protected from './Protected';
 import Chat from '../pages/Chat';
 import Navbar from './Navbar';
+import MyProfile from '../pages/MyProfile';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route exact path="/home" element={<Protected Component={Home} />} />
             <Route exact path="/profile/:username" element={<Protected Component={CreateProfile} />} />
             <Route exact path="/chat" element={<Protected Component={Chat} />} />
-            {/* <Route exact path="/chat" element={<Chat/>} /> */}
+            <Route exact path="/myprofile" element={<Protected Component={MyProfile} />} />
             <Route exact path="/" element={<Login />} />
             <Route exact path="/signup" element={<SignUp />} />
             <Route exact path="/about" element={<About />} />

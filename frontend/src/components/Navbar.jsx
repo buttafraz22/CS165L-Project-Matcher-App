@@ -7,7 +7,6 @@ function Navbar() {
     const loginInfo = useContext(loginContext);
     const navigate = useNavigate();
 
-    const {userId : id} = loginInfo;
     const {login : login} = loginInfo;
 
     function onLogout() {
@@ -43,9 +42,7 @@ function Navbar() {
                                     <Link className="nav-link text-light" to="/home">Find your partner</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-light" to="#">
-                                        {loginInfo.username}
-                                    </Link>
+                                    <Link className="nav-link text-light" to="/myprofile"> My Profile </Link>
                                 </li>
                                 <li className="nav-item">
                                     <div className='profile-image'>

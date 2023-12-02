@@ -5,7 +5,6 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import loginContext from "../context/auth/loginContext";
 
 
 function CreateProfile() {

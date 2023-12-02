@@ -21,13 +21,13 @@ function Chat() {
         if (room !== null) {
             socket.emit("join_room", room);
         }
-    }, [room, chatId, getProfiles]);
+    }, [room, chatId]);
 
     useEffect(() => {
         if (userId !== "") {
             getRoom();
         }
-    },[userId, getRoom])
+    },[userId])
 
     async function getProfiles() {
         const userInfo = {userId : loginInfo.userId};
