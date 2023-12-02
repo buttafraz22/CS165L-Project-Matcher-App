@@ -17,7 +17,7 @@ const ChatCard = (props) => {
     return (
         <div className="chat-card" onClick={saveUserId}>
             <div className="chat-card-img-wrapper mr-2">
-                <img src="/images/profile-picture.jpg"/>
+                <img src={props.image}/>
             </div>
             <div className="chat-message-info">
                 <div className="chat-card-message-title">

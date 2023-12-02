@@ -193,7 +193,7 @@ label .custom-picture{
   margin: 0 auto;
   border-radius: 100%;
   background-color: white;
-  border: 3px solid white;
+  border: 1px solid white;
 }
 
 .user-profile-wrapper img{

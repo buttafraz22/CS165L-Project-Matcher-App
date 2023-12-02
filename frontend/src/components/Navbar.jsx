@@ -13,7 +13,6 @@ function Navbar() {
     function onLogout() {
         loginInfo.updateLogin(false);
         loginInfo.updateUserId(null);
-        console.log(loginInfo);
         navigate("/");
     }
 
@@ -50,7 +49,7 @@ function Navbar() {
                                 </li>
                                 <li className="nav-item">
                                     <div className='profile-image'>
-                                        <img src="/images/profile-picture.jpg" alt='profile-image' />
+                                        <img src={loginInfo.myProfile === null ? "/images/profile-picture.jpg": loginInfo.myProfile.image} alt='profile-image' />
                                     </div>
                                 </li>
                             </>

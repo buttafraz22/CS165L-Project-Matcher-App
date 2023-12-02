@@ -1,5 +1,4 @@
 import '../App.css';
-import Navbar from '../components/Navbar';
 import InputField from '../components/InputField';
 import { useState } from 'react';
 import React from "react";
@@ -52,7 +51,6 @@ function Login() {
         for (let key in loginData) {
             if (loginData.hasOwnProperty(key)) {
                 if (loginData[key] === '') {
-                    console.log("sds");
                    return {isFailed: true, message: `Please fill out the ${key}`};
                 }
             }

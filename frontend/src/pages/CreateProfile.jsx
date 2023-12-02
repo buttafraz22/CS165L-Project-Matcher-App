@@ -17,10 +17,6 @@ function CreateProfile() {
     const [profilePicture, setProfilePicture] = useState(null);
     const [visualizePicture, setVisualizePicture] = useState("/images/profile-picture.jpg");
 
-    const loginInfo = useContext(loginContext);
-
-    console.log(loginInfo);
-
     const navigate = useNavigate();
     let params = useParams();
 
@@ -34,6 +30,7 @@ function CreateProfile() {
             profileType,
             relationshipStatus,
             ...username,
+            image: visualizePicture
         }
 
         const check = checkConstraints({...profileData, profilePicture});
@@ -42,14 +39,12 @@ function CreateProfile() {
             const formData = new FormData();
             formData.append('file', profilePicture);
             formData.append('profileData', JSON.stringify(profileData));
-            console.log(profilePicture);
     
             axios.post('http://localhost:5000/api/profiles', formData)
             .then(res=>{
                 console.log(res.data);
                 if (res.data.message) {
                     alert(res.data.message);
-                    console.log(loginInfo);
                     navigate('/home');
                 } else {
                     alert('Error');
@@ -62,7 +57,6 @@ function CreateProfile() {
     }
 
     function checkConstraints(profileData) {
-        console.log("Profile: ",profileData);
         for (let key in profileData) {
             if (profileData.hasOwnProperty(key)) {
                 if (
@@ -107,9 +101,7 @@ function CreateProfile() {
 
     async function handleFileUpload(e) {
         const file = e.target.files[0];
-        console.log(file);
         const base64 = await convertToBase64(file);
-        console.log(base64);
         setProfilePicture(file);
         setVisualizePicture(base64);
     }

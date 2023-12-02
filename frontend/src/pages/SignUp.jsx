@@ -1,5 +1,4 @@
 import '../App.css';
-import Navbar from '../components/Navbar';
 import InputField from '../components/InputField';
 import {useContext, useReducer, useState} from 'react';
 import Form from 'react-bootstrap/Form';
@@ -68,14 +67,12 @@ function SignUp() {
             fetch('http://localhost:5000/api/users', options)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.requestedData.isFailed) {
                     alert(data.requestedData.message);
                 } else if (data.requestedData.isFailed) {
                     alert(data.requestedData.message);
                 } else {
                     alert(data.requestedData.message);
-                    console.log(data.requestedData);
                     loginInfo.updateUserId(data.requestedData.id);
                     loginInfo.updateLogin(true);
                     navigate('/profile/'+state.username);
@@ -115,7 +112,6 @@ function SignUp() {
         let name = e.target.name;
 
         if (name === "username") {
-
             dispatch({type: 'setUsername', payload: value.toLowerCase()});
         } else if (name === "password") {
             dispatch({type: 'setPassword', payload: value});
@@ -128,9 +124,9 @@ function SignUp() {
 
     function onSelectGender(e) {
         let value = e.target.value;
-        if (value == 1) {
+        if (value === 1) {
             dispatch({type: 'setGender', payload: 'male'});
-        } else if (value == 2){
+        } else if (value === 2){
             dispatch({type: 'setGender', payload: 'female'});
         }
     }

@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import ChatCard from "../components/ChatCard";
 import { useContext, useEffect, useState } from "react";
 import loginContext from "../context/auth/loginContext";
@@ -22,21 +21,16 @@ function Chat() {
         if (room !== null) {
             socket.emit("join_room", room);
         }
-        console.log("Chat Id: ", chatId);
-        console.log("Room: ", room);
-    }, [room, chatId]);
+    }, [room, chatId, getProfiles]);
 
     useEffect(() => {
         if (userId !== "") {
             getRoom();
         }
-    },[userId])
+    },[userId, getRoom])
 
     async function getProfiles() {
         const userInfo = {userId : loginInfo.userId};
-
-        console.log("I am in get profiles");
-
         const response = await axios.get('http://localhost:5000/api/matched-profiles?userId='+userInfo.userId);
         if (response.data.profiles) {
             const profiles = response.data.profiles;
@@ -67,7 +61,7 @@ function Chat() {
                     <div className="chat-scroller">
                         {
                             userProfiles.map((profile)=>{
-                                return <ChatCard key={profile._id} id={profile.userId} name={profile.name} setUserId={setUserId} getRoom={getRoom} />
+                                return <ChatCard key={profile._id} id={profile.userId} name={profile.name} image={profile.image} setUserId={setUserId} getRoom={getRoom} />
                             })
                         }
                     </div>

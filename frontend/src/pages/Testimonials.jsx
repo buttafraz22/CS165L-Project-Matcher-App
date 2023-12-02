@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import TestimonialCard from "../components/TestimonialCard";
 import testimonialsData from "../testimonialsData";
 import React from "react";

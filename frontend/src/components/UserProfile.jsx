@@ -52,7 +52,7 @@ function UserProfile(props) {
         <>
             <div className="user-profile">
                 <div className="user-profile-wrapper">
-                    <img src="/images/profile-picture.jpg" alt="user-profile" />
+                    <img src={`${props.image}`} alt="user-profile" />
                 </div>
                 <h1>{props.name}</h1>
                 <p>{props.aboutMe.length > 315 ? props.aboutMe.slice(0, 315)+"..." : props.aboutMe}</p>
@@ -60,7 +60,7 @@ function UserProfile(props) {
                 <button onClick={onCheck}><i className={isMatched ? "fa-solid fa-heart fa-2xl" : "fa-regular fa-heart fa-2xl"} style={{color: "#ff2600"}}></i></button>
                 {
                     isMatched &&
-                    <button><i class="fa-solid fa-message fa-2xl" style={{color: "grey"}} onClick={()=>navigate("/chat")}></i></button>
+                    <button><i className="fa-solid fa-message fa-2xl" style={{color: "grey"}} onClick={()=>navigate("/chat")}></i></button>
                 }
             </div>
         </>
