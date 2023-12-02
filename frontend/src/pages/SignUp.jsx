@@ -75,6 +75,7 @@ function SignUp() {
                     alert(data.requestedData.message);
                     loginInfo.updateUserId(data.requestedData.id);
                     loginInfo.updateLogin(true);
+                    loginInfo.updateUsername(state.username);
                     navigate('/profile/'+state.username);
                 }
             })
@@ -124,9 +125,10 @@ function SignUp() {
 
     function onSelectGender(e) {
         let value = e.target.value;
-        if (value === 1) {
+        console.log(value);
+        if (value == 1) {
             dispatch({type: 'setGender', payload: 'male'});
-        } else if (value === 2){
+        } else if (value == 2){
             dispatch({type: 'setGender', payload: 'female'});
         }
     }

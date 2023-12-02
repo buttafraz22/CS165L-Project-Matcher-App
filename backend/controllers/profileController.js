@@ -1,12 +1,7 @@
 const User = require("../models/user");
 const Role = require("../models/role");
 const Profile = require("../models/profile");
-
-// const fs = require('fs');
-// const base64Img = require('base64-img');
-// const path = require('path');
-
-// const publicPath = path.join(__dirname, 'public');
+const Match = require("../models/match");
 
 async function createProfile(req, res) {
     try {
@@ -43,10 +38,25 @@ async function createProfile(req, res) {
 async function getProfile(req, res) {
     try {
         const {userId} = req.params;
-        console.log(userId);
         const profileFound = await Profile.findOne({userId});
         if (profileFound) {
             res.json({profileFound, message: "Profile Found"});
+        } else {
+            res.json({isExist: false});
+        }
+    } catch (err) {
+        res.status(500).json({ error : err.message })
+    }
+}
+
+async function deleteProfile(req, res) {
+    try {
+        const {userId} = req.params;
+        const deletedProfile = await Profile.deleteOne({userId});
+        const deletedUser = await User.deleteOne({_id: userId});
+        const deletedMatch = await Match.deleteMany({ $or: [{ userId1: userId }, { userId2: userId }] });
+        if (deletedProfile) {
+            res.json({message: "Profile Deleted"});
         } else {
             res.json({isExist: false});
         }
@@ -87,5 +97,6 @@ async function getAllProfiles(req, res) {
 module.exports = {
     createProfile,
     getProfile,
-    getAllProfiles
+    getAllProfiles,
+    deleteProfile
 }

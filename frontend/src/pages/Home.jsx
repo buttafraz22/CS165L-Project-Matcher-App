@@ -44,10 +44,15 @@ function Home() {
         <>
             <div id='user-profiles'>
             {
+                userProfiles.length !== 0 ?
                 userProfiles.slice(profileNum, profileNum+1)
                 .map((userProfile)=>{
                     return <UserProfile key={userProfile._id} totalProfiles={userProfiles.length} setProfileNum={setProfileNum} name={userProfile.name} image={userProfile.image} aboutMe={userProfile.aboutMe} userId1={userId} userId2={userProfile.userId} />
                 })
+                :
+                <div className="selected-chat">
+                    <h1 className='text-center'>There are no profiles available yet!</h1>
+                </div>
             }
             </div>
         </>

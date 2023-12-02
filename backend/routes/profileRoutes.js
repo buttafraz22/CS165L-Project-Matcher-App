@@ -6,5 +6,6 @@ const upload = require('../models/multerSetup')
 router.post("/profiles", upload.single('file'), profileController.createProfile);
 router.get("/profile/:userId", profileController.getProfile);
 router.get("/profiles/:userId", profileController.getAllProfiles);
+router.delete("/profile/:userId", profileController.deleteProfile);
 
 module.exports = router;
