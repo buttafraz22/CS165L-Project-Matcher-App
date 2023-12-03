@@ -5,7 +5,6 @@ import messagesContext from "../context/user-messages/messagesContext";
 
 function ChatInput(props) {
     const [message, setMessage] = useState("");
-    // const [messagesList, setMessagesList] = useState([]);
     const [enter, setEnter] = useState(true);
     const loginInfo = useContext(loginContext);
     const messagesList = useContext(messagesContext);
@@ -104,7 +103,7 @@ function ChatInput(props) {
             </div>
             <div className="chat-input-footer">
                 <div class="input-group">
-                    <input type="text" class="form-control p-4" placeholder="Type message..." aria-label="Recipient's username" aria-describedby="basic-addon2" value={message} onChange={(e)=>{setMessage(e.target.value)}} />
+                    <input type="text" class="form-control p-4" placeholder={`Send message to ${props.name}...`} aria-label="Recipient's username" aria-describedby="basic-addon2" value={message} onChange={(e)=>{setMessage(e.target.value)}} />
                     <div class="input-group-append">
                         <button class="btn btn-secondary btn-lg" onClick={sendMessage} type="button"><i class="fa-solid fa-share"></i></button>
                     </div>

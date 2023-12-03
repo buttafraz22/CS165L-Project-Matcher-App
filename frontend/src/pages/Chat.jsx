@@ -10,6 +10,7 @@ const socket = io.connect("http://localhost:5000");
 function Chat() {
 
     const [userProfiles, setUserProfiles] = useState([]);
+    const [name, setName] = useState(null);
     const [userId, setUserId] = useState("");
     const [room, setRoom] = useState(null);
     const [chatId, setChatId] = useState("");
@@ -61,7 +62,7 @@ function Chat() {
                     <div className="chat-scroller">
                         {
                             userProfiles.map((profile)=>{
-                                return <ChatCard key={profile._id} id={profile.userId} name={profile.name} image={profile.image} setUserId={setUserId} getRoom={getRoom} />
+                                return <ChatCard key={profile._id} id={profile.userId} name={profile.name} image={profile.image} setName={setName} setUserId={setUserId} getRoom={getRoom} />
                             })
                         }
                     </div>
@@ -72,7 +73,7 @@ function Chat() {
                         <h1>Matcher App</h1>
                     </div>
                     :
-                    <ChatInput name={loginInfo.username} chatId={chatId} socket={socket} room={room}/>
+                    <ChatInput name={name} chatId={chatId} socket={socket} room={room}/>
                 }
             </div>
         </>

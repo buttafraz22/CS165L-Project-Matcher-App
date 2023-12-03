@@ -11,6 +11,7 @@ const ChatCard = (props) => {
 
     async function saveUserId() {
         props.setUserId(props.id);
+        props.setName(props.name);
         messagesList.updateMessages([]);
     }
 

@@ -151,7 +151,8 @@ function CreateProfile() {
                         
                         <div className="form-group">
                             <label htmlFor="exampleFormControlTextarea1">About me</label>
-                            <textarea className="form-control" id="exampleFormControlTextarea1" name="aboutMe" rows="3" placeholder="About me" value={aboutMe} onChange={onChanged}></textarea>
+                            <textarea className="form-control" id="exampleFormControlTextarea1" name="aboutMe" rows="3" maxLength={350} placeholder="About me" value={aboutMe} onChange={onChanged}></textarea>
+                            <p className="text-right">{aboutMe.length}/350</p>
                         </div>
                     </div>
                     <div className="form-buttons">

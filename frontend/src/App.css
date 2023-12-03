@@ -362,7 +362,7 @@ label .custom-picture{
   width: 350px;
   overflow: hidden;
   margin: 0 auto;
-  background-color: black;
+  border-radius: 100%;
 }
 
 .my-profile-image-wrapper img{

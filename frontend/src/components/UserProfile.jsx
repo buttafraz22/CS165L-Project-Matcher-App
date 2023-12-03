@@ -55,7 +55,7 @@ function UserProfile(props) {
                     <img src={`${props.image}`} alt="user-profile" />
                 </div>
                 <h1>{props.name}</h1>
-                <p>{props.aboutMe.length > 315 ? props.aboutMe.slice(0, 315)+"..." : props.aboutMe}</p>
+                <p>{props.aboutMe.length > 315 ? props.aboutMe.slice(0, 350)+"..." : props.aboutMe}</p>
                 <button onClick={updateProfileNum}><i className="fa-solid fa-xmark fa-2xl" style={{color: "grey"}}></i></button>
                 <button onClick={onCheck}><i className={isMatched ? "fa-solid fa-heart fa-2xl" : "fa-regular fa-heart fa-2xl"} style={{color: "#ff2600"}}></i></button>
                 {
