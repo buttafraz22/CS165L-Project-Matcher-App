@@ -7,5 +7,6 @@ router.post("/profiles", upload.single('file'), profileController.createProfile)
 router.get("/profile/:userId", profileController.getProfile);
 router.get("/profiles/:userId", profileController.getAllProfiles);
 router.delete("/profile/:userId", profileController.deleteProfile);
+router.patch("/profile/:userId", profileController.updateProfile);
 
 module.exports = router;

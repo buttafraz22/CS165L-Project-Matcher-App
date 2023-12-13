@@ -94,9 +94,31 @@ async function getAllProfiles(req, res) {
     }
 }
 
+async function updateProfile(req, res) {
+    try {
+        const {userId} = req.params;
+        console.log(req.params);
+        console.log(req.body);
+        const profileUpdated = await Profile.updateOne(
+            {userId: userId},
+            {$set: req.body},
+        );
+        console.log(profileUpdated);
+        const profile = await Profile.findOne({userId: userId})
+        if (profileUpdated) {
+            res.json({profileUpdated: profile, message: "Profile Updated"});
+        } else {
+            res.json({isExist: false});
+        }
+    } catch (err) {
+        res.status(500).json({ error : err.message })
+    }
+}
+
 module.exports = {
     createProfile,
     getProfile,
     getAllProfiles,
-    deleteProfile
+    deleteProfile,
+    updateProfile
 }
