@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState , useRef } from "react";
 import axios from "axios";
 import loginContext from "../context/auth/loginContext";
 import messagesContext from "../context/user-messages/messagesContext";
@@ -7,6 +7,14 @@ function ChatInput(props) {
     const [message, setMessage] = useState("");
     const loginInfo = useContext(loginContext);
     const messagesList = useContext(messagesContext);
+
+    const scrollableDivRef = useRef(null);
+
+    useEffect(() => {
+        if (scrollableDivRef.current) {
+        scrollableDivRef.current.scrollTop = scrollableDivRef.current.scrollHeight;
+        }
+    }, [messagesList.messages]);
 
     const chatId = props.chatId;
 
@@ -53,9 +61,9 @@ function ChatInput(props) {
     return (
         <div className="chat-input border-left">
             <div className="chat-input-header">
-                <h2>Live Chat</h2>
+                <h2>{props.name}</h2>
             </div>
-            <div className="chat-input-body">
+            <div className="chat-input-body" ref={scrollableDivRef}>
                 {
                     messagesList.messages.map((messageContent)=>{
                         return (

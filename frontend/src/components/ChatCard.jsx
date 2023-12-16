@@ -23,7 +23,6 @@ const ChatCard = (props) => {
             <div className="chat-message-info">
                 <div className="chat-card-message-title">
                     <h5>{props.name}</h5>
-                    <small>12:09PM</small>
                 </div>
                 <p className="mt-3">{message.length > 36 ? message.slice(0, 36)+"..." : message}</p>
             </div>

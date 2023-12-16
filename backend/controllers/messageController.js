@@ -36,6 +36,7 @@ async function createMessage(req, res) {
 
 async function getMessages(req, res) {
     try {
+        deleteOldMessages();
         const { chatId } = req.query;
         console.log("Chat Id: ",chatId);
         const messagesFound = await Message.find({ chatId: chatId });
@@ -63,42 +64,18 @@ async function getMessages(req, res) {
     }
 }
 
-async function isExist(userId1, userId2) {
-    const chat = await Chat.findOne({ $or: [{ 'participants.0': userId1, 'participants.1' : userId2 }, { 'participants.0': userId2, 'participants.1': userId1 }] });
-    if (chat !== null) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-async function deleteChat(userId1, userId2) {
+async function deleteOldMessages() {
     try {
-        Chat.deleteOne({ $or: [{ 'participants.0': userId1, 'participants.1' : userId2 }, { 'participants.0': userId2, 'participants.1': userId1 }] })
-        .then(()=>{
-            return true;
-        })
-        .catch((err)=>{
-            return false;
-        })
-    } catch (err) {
-        return false;
-    }
-}
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-async function getRoom(req, res) {
-    try {
-        const { userId1, userId2 } = req.query;
-        const chat = await Chat.findOne({ $or: [{ 'participants.0': userId1, 'participants.1' : userId2 }, { 'participants.0': userId2, 'participants.1': userId1 }] });
-        if (chat !== null) {
-            res.status(201).json({message: true, chat});
-        } else {
-            res.status(201).json({message: false});
-        }
-    } catch (err) {
-        res.status(500).json({ error : err.message, })
+        // Delete messages older than 7 days
+        await Message.deleteMany({ createdAt: { $lt: sevenDaysAgo } });
+        console.log('Old messages deleted successfully.');
+    } catch (error) {
+        console.error('Error deleting old messages:', error);
     }
-}
+};
 
 module.exports = {
     createMessage,

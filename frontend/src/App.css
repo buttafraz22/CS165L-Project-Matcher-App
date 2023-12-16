@@ -384,7 +384,9 @@ label .custom-picture{
 .chat-message-group .message{
   float: left;
   padding: 10px;
-  background: #ecf1f8;
+  /* #EF9280 */
+  background: #6C757D;
+  color: white;
   font-size: 13px;
   border-radius: 5px;
   margin-bottom: 3px;
@@ -414,8 +416,8 @@ label .custom-picture{
 }
 .writer-user .chat-messages .message{
   float: right;
-  background: #683db8;
-  color: #FFF;
+  background: #d5dae1;
+  color: #000000;
 }
 .writer-user .chat-messages .from{
   float: left;
