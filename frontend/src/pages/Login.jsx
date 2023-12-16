@@ -81,7 +81,7 @@ function Login() {
                             value={password}
                             onChanged={onChanged}
                         />
-                        <a href="#"><small id="emailHelp" className="form-text text-muted" style={{textAlign: 'end'}}>Forget Password?</small></a>
+                        {/* <a href="#"><small id="emailHelp" className="form-text text-muted" style={{textAlign: 'end'}}>Forget Password?</small></a> */}
                     </div>
                     <div className="form-buttons">
                         <button className="btn btn-secondary mb-3 w-100" onClick={onLogin}>Login</button>

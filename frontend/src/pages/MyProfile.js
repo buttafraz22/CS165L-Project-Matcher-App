@@ -12,6 +12,28 @@ function MyProfile() {
     const [aboutMe, setAboutMe] = useState(loginInfo.myProfile.aboutMe);
     const [visualizePicture, setVisualizePicture] = useState(loginInfo.myProfile.image);
 
+    function changePreference(e) {
+        let value = e.target.value;
+        let inputName = e.target.name;
+        if (inputName === 'min') {
+            // Parse the input value to ensure it's a number
+            let newMinAge = parseInt(value, 10);
+            
+            // Check if newMinAge is valid and less than or equal to maxAge
+            if (!isNaN(newMinAge) && newMinAge <= loginInfo.maxAge - 1) {
+                loginInfo.updateMinAge(newMinAge);
+            }
+        } else {
+            // Parse the input value to ensure it's a number
+            let newMaxAge = parseInt(value, 10);
+        
+            // Check if newMaxAge is valid and greater than or equal to minAge
+            if (!isNaN(newMaxAge) && newMaxAge >= loginInfo.minAge + 1) {
+                loginInfo.updateMaxAge(newMaxAge);
+            }
+        }
+    }
+
     function onDelete() {
         axios.delete(`http://localhost:5000/api/profile/${loginInfo.myProfile.userId}`)
         .then(res=>{
@@ -126,6 +148,49 @@ function MyProfile() {
                 <button class="btn btn-outline-secondary btn-lg w-100 mb-3" data-toggle="modal" data-target="#modalContactForm">
                     <i class="fa-solid fa-pen-to-square mr-3"></i>
                     Edit My Profile
+                </button>
+            </div>
+
+            <div class="modal fade" id="changePreference" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Change Preference</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="md-form">
+                            <h4 className="text-left">Age</h4>
+                            <div class="range">
+                                <div class="range-slider">
+                                    <span class="range-selected"></span>
+                                </div>
+                                <input type="range" className="w-100" name="min" min="18" max="70" value={loginInfo.minAge} onChange={changePreference} step="1"/>
+                                <label for="min">Min</label>
+                                <input className="ml-3" type="number" name="min" value={loginInfo.minAge} onChange={changePreference} style={{width: "10%"}}/>
+                                <input type="range" className="w-100" name="max" min="18" max="70" value={loginInfo.maxAge} onChange={changePreference} step="1"/>
+                                <label for="max">Max</label>
+                                <input className="ml-3" type="number" name="max" value={loginInfo.maxAge} onChange={changePreference} style={{width: "10%"}}/>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-secondary btn-lg w-100 mx-4" data-dismiss="modal" aria-label="Close">
+                            <i class="fa-solid fa-sliders mr-3"></i>
+                            Change Preference
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-outline-secondary btn-lg w-100 mb-3"  data-toggle="modal" data-target="#changePreference">
+                    <i class="fa-solid fa-sliders mr-3"></i>
+                    Change Preference
                 </button>
             </div>
         </div>

@@ -17,7 +17,7 @@ function Home() {
     }, [])
 
     function getAllUserProfiles() {
-        axios.get('http://localhost:5000/api/profiles/'+userId)
+        axios.get(`http://localhost:5000/api/profiles/?userId=${userId}&minAge=${loginInfo.minAge}&maxAge=${loginInfo.maxAge}`)
         .then(async res=> {
             if (res.data.message) {
                 setUserProfiles(res.data.profilesFound);

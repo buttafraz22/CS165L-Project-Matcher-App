@@ -67,30 +67,40 @@ async function deleteProfile(req, res) {
 
 async function getAllProfiles(req, res) {
     try {
-        const { userId } = req.params;
+        const { userId , minAge , maxAge } = req.query;
+        console.log(req.query);
         const profilesFound = await Profile.find({ userId: { $ne: userId } });
         const usersFound = await User.find({ _id: { $ne: userId } });
         const userFound = await User.findOne({ _id: userId });
         const currentProfile = await Profile.findOne({ userId: userId });
         const profileRole = await Role.findOne({ _id: currentProfile.profileType });
 
-        oppositeGenderProfiles = [];
+        let profiles = [];
 
-        if (profileRole.roleName === 'Partner') {
-            for (let i = 0; i < profilesFound.length; i++) {
-                for (let j = 0; j < usersFound.length; j++) {
-                    if (profilesFound[i].userId.toString() == usersFound[j]._id.toString()) {
-                        if (usersFound[j].gender != userFound.gender) {
-                            oppositeGenderProfiles.push(profilesFound[i]);
+        for (let i = 0; i < profilesFound.length; i++) {
+            for (let j = 0; j < usersFound.length; j++) {
+                if (profilesFound[i].userId.toString() == usersFound[j]._id.toString()) {
+                    if (usersFound[j].age >= minAge && usersFound[j].age <= maxAge) {
+                        if (profileRole.roleName === 'Partner') {
+                            const profile = await Profile.findOne({ userId: usersFound[j]._id });
+                            const role = await Role.findOne({ _id: profile.profileType });
+                            if (role.roleName !== "Parent" && usersFound[j].gender != userFound.gender) {
+                                profiles.push(profilesFound[i]);
+                            }
+                        } else {
+                            const profile = await Profile.findOne({ userId: usersFound[j]._id });
+                            const role = await Role.findOne({ _id: profile.profileType });
+                            if (role.roleName !== "Parent") {
+                                profiles.push(profilesFound[i]);
+                            }
                         }
                     }
                 }
             }
         }
 
-
         if (profilesFound) {
-            res.json({profilesFound: oppositeGenderProfiles.length === 0 ? profilesFound : oppositeGenderProfiles, message: "Profile Found"});
+            res.json({profilesFound: profiles, message: "Profile Found"});
         } else {
             res.json({isExist: false});
         }
