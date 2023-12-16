@@ -35,7 +35,7 @@ function MyProfile() {
 
     async function onDelete() {
         try {
-            const response = await axios.delete(`http://localhost:5000/api/profile/${loginInfo.myProfile.userId}`);
+            const response = await axios.delete(`${process.env.REACT_APP_SERVER_LINK}/api/profile/${loginInfo.myProfile.userId}`);
         
             if (response.data.message) {
                 alert(response.data.message);
@@ -60,7 +60,7 @@ function MyProfile() {
                 image: visualizePicture
             };
         
-            const response = await axios.patch(`http://localhost:5000/api/profile/${loginInfo.myProfile.userId}`, formData);
+            const response = await axios.patch(`${process.env.REACT_APP_SERVER_LINK}/api/profile/${loginInfo.myProfile.userId}`, formData);
         
             console.log(response.data);
         

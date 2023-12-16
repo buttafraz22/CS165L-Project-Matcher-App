@@ -29,11 +29,13 @@ function Login() {
     async function onLogin() {
         const userData = { username, password };
 
+        console.log(process.env.REACT_APP_SERVER_LINK);
+
         const check = checkConstraints(userData);
 
         if (!check.isFailed) {
             try {
-                const response = await axios.post('http://localhost:5000/api/login', userData);
+                const response = await axios.post(`${process.env.REACT_APP_SERVER_LINK}/api/login`, userData);
                 if (response.data.userFound) {
                     const userId = response.data.userFound._id;
                     const username = response.data.userFound.username;

@@ -67,7 +67,7 @@ function ChatInput(props) {
         };
         
         try {
-            const response = await axios.post('http://localhost:5000/api/messages', messageData);
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_LINK}/api/messages`, messageData);
         
             if (!response.data.isFailed) {
                 const receivedMessage = response.data.message;

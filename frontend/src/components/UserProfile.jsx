@@ -11,13 +11,13 @@ function UserProfile(props) {
     async function onCheck() {
         try {
             if (isMatched) {
-                const unmatchResponse = await axios.post('http://localhost:5000/api/un-match', matchData);
+                const unmatchResponse = await axios.post(`${process.env.REACT_APP_SERVER_LINK}/api/un-match`, matchData);
         
                 if (unmatchResponse.data.message) {
                     setMatched(false);
                 }
             } else {
-                const matchResponse = await axios.post('http://localhost:5000/api/matches', matchData);
+                const matchResponse = await axios.post(`${process.env.REACT_APP_SERVER_LINK}/api/matches`, matchData);
         
                 if (matchResponse.data.message) {
                     setMatched(true);
@@ -45,7 +45,7 @@ function UserProfile(props) {
 
     async function initialize() {
         try {
-            const response = await axios.post('http://localhost:5000/api/is-matched', matchData);
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_LINK}/api/is-matched`, matchData);
         
             if (response.data.message) {
                 setMatched(true);

@@ -21,7 +21,7 @@ function MessagesState(props) {
     }
 
     async function retrieveMessageToDataBase() {
-        const response = await axios.get(`http://localhost:5000/api/messages?chatId=${chatId}`);
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_LINK}/api/messages?chatId=${chatId}`);
         if (!response.data.isFailed) {
             const messages = response.data.messages;
             let displayMessage = [];

@@ -44,7 +44,7 @@ function Chat() {
 
     async function getProfiles() {
         const userInfo = {userId : loginInfo.userId};
-        const response = await axios.get(`http://localhost:5000/api/matched-profiles?userId=${userInfo.userId}&search=${search}`);
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_LINK}/api/matched-profiles?userId=${userInfo.userId}&search=${search}`);
         if (!response.data.isFailed) {
             const profiles = response.data.profiles;
             setUserProfiles(profiles);
@@ -54,7 +54,7 @@ function Chat() {
     }
 
     async function getRoom() {
-        const response = await axios.get('http://localhost:5000/api/get-room?userId1='+loginInfo.userId+'&userId2='+userId);
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_LINK}/api/get-room?userId1=${loginInfo.userId}&userId2=${userId}`);
         if (response.data.chat) {
             const chat = response.data.chat;
             setRoom(chat.chatRoom);

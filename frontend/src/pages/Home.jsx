@@ -18,7 +18,7 @@ function Home() {
 
     async function getAllUserProfiles() {
         try {
-            const response = await axios.get(`http://localhost:5000/api/profiles/?userId=${userId}&minAge=${loginInfo.minAge}&maxAge=${loginInfo.maxAge}`);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_LINK}/api/profiles/?userId=${userId}&minAge=${loginInfo.minAge}&maxAge=${loginInfo.maxAge}`);
             
             if (response.data.message) {
                 setUserProfiles(response.data.profilesFound);
@@ -32,7 +32,7 @@ function Home() {
 
     async function getMyProfile() {
         try {
-            const response = await axios.get(`http://localhost:5000/api/profile/${userId}`);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_LINK}/api/profile/${userId}`);
             
             if (response.data.message) {
                 loginInfo.updateMyProfile(response.data.profileFound);

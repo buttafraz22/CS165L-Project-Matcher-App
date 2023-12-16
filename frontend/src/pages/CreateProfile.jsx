@@ -40,7 +40,7 @@ function CreateProfile() {
                 formData.append('file', profilePicture);
                 formData.append('profileData', JSON.stringify(profileData));
         
-                const response = await axios.post('http://localhost:5000/api/profiles', formData);
+                const response = await axios.post(`${process.env.REACT_APP_SERVER_LINK}/api/profiles`, formData);
 
                 if (response.data.message) {
                     alert(response.data.message);

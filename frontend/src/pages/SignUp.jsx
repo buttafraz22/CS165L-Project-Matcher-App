@@ -59,7 +59,7 @@ function SignUp() {
             let check = checkConstraints(signUpData);
         
             if (!check.isFailed) {
-                const response = await axios.post('http://localhost:5000/api/users', signUpData);
+                const response = await axios.post(`${process.env.REACT_APP_SERVER_LINK}/api/users`, signUpData);
         
                 if (response.data.requestedData.isFailed) {
                     alert(response.data.requestedData.message);
