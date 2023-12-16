@@ -5,38 +5,33 @@ import messagesContext from "../context/user-messages/messagesContext";
 
 function ChatInput(props) {
     const [message, setMessage] = useState("");
-    const [enter, setEnter] = useState(true);
     const loginInfo = useContext(loginContext);
     const messagesList = useContext(messagesContext);
+
+    const chatId = props.chatId;
 
     async function sendMessage() {
         if (message !== "") {
             const messageData = {
                 message: message,
-                author: props.name,
+                author: loginInfo.myProfile.name,
                 room: props.room,
                 time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
             }
             await props.socket.emit("send_message", messageData, async (ackCallback) => {
                 console.log("Call back: ",ackCallback);
                 messagesList.updateMessages((prevValue) => [...prevValue, ackCallback]);
-                // sendMessageToDataBase(ackCallback);
+                sendMessageToDataBase(ackCallback);
             });
             setMessage("");
         }
     }
 
     useEffect(()=>{
-        // console.log("CHAT ID 897897897: ",props.chatId);
-        // if (enter) {
-        //     retrieveMessageToDataBase();
-        //     setEnter(false);
-        // }
         const handleReceiveMessage = async (data, ackCallback) => {
             console.log("Received message:", data);
             ackCallback();
             messagesList.updateMessages((prevValue) => [...prevValue, data]);
-            // sendMessageToDataBase(data);
         };
         props.socket.on("receive_message", handleReceiveMessage);        
         return () => {
@@ -55,25 +50,6 @@ function ChatInput(props) {
         }
     }
 
-    async function retrieveMessageToDataBase() {
-        console.log("Chat Id 0909: ", props.chatId);
-        const response = await axios.get('http://localhost:5000/api/messages?chatId='+props.chatId);
-        if (!response.data.isFailed) {
-            const messages = response.data.messages;
-            console.log(messages);
-            for (let i = 0; i < messages.length; i++) {
-                messagesList.messages.map((prevValue) => [...prevValue, {
-                    message: messages[i].message.messageContent,
-                    author: messages[i].name,
-                    room: props.room,
-                    time: messages[i].message.time
-                }]);
-            }
-        } else {
-            alert("Data is not available.");
-        }
-    }
-
     return (
         <div className="chat-input border-left">
             <div className="chat-input-header">
@@ -83,20 +59,14 @@ function ChatInput(props) {
                 {
                     messagesList.messages.map((messageContent)=>{
                         return (
-                            <div>
-                                <div className="message my-2" id = {props.name === messageContent.author ? "you" : "other"}>
-                                    <div 
-                                        className="message-content px-4 rounded-right"
-                                        
-                                    >
-                                        <p className="py-2">{messageContent.message}</p>
-                                    </div>
-                                    <div className="message-meta">
-                                        <p id="time">{messageContent.time}</p>
-                                        <p id="author">{messageContent.author}</p>
+                            <>
+                                <div class={`chat-message-group ${props.name !== messageContent.author && "writer-user"} `}>
+                                    <div class="chat-messages">
+                                        <div class="message">{messageContent.message}</div>
+                                        <div class="from">{messageContent.author} {messageContent.time}</div>
                                     </div>
                                 </div>
-                            </div>
+                            </>
                         );
                     })
                 }

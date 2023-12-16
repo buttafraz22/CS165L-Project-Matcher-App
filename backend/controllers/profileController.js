@@ -71,21 +71,26 @@ async function getAllProfiles(req, res) {
         const profilesFound = await Profile.find({ userId: { $ne: userId } });
         const usersFound = await User.find({ _id: { $ne: userId } });
         const userFound = await User.findOne({ _id: userId });
+        const currentProfile = await Profile.findOne({ userId: userId });
+        const profileRole = await Role.findOne({ _id: currentProfile.profileType });
 
         oppositeGenderProfiles = [];
 
-        for (let i = 0; i < profilesFound.length; i++) {
-            for (let j = 0; j < usersFound.length; j++) {
-                if (profilesFound[i].userId.toString() == usersFound[j]._id.toString()) {
-                    if (usersFound[j].gender != userFound.gender) {
-                        oppositeGenderProfiles.push(profilesFound[i]);
+        if (profileRole.roleName === 'Partner') {
+            for (let i = 0; i < profilesFound.length; i++) {
+                for (let j = 0; j < usersFound.length; j++) {
+                    if (profilesFound[i].userId.toString() == usersFound[j]._id.toString()) {
+                        if (usersFound[j].gender != userFound.gender) {
+                            oppositeGenderProfiles.push(profilesFound[i]);
+                        }
                     }
                 }
             }
         }
 
+
         if (profilesFound) {
-            res.json({profilesFound: oppositeGenderProfiles, message: "Profile Found"});
+            res.json({profilesFound: oppositeGenderProfiles.length === 0 ? profilesFound : oppositeGenderProfiles, message: "Profile Found"});
         } else {
             res.json({isExist: false});
         }

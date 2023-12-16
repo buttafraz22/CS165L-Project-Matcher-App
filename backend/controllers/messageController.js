@@ -38,14 +38,15 @@ async function getMessages(req, res) {
     try {
         const { chatId } = req.query;
         console.log("Chat Id: ",chatId);
-        const messagesFound = await Message.find({ chatId: "656321ed87ab111d0832ad19" });
+        const messagesFound = await Message.find({ chatId: chatId });
 
         let messages = [];
 
         for (let i = 0; i < messagesFound.length; i++) {
             const user = await User.findOne({_id: messagesFound[i].userId});
             if (user) {
-                messages.push({ message: messagesFound[i], name: user.username });
+                const profile = await Profile.findOne({userId: messagesFound[i].userId});
+                messages.push({ message: messagesFound[i], name: profile.name });
             } else {
                 console.log("User not found for userId:", messagesFound[i].userId);
             }

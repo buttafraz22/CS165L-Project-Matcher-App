@@ -4,6 +4,7 @@ import loginContext from "../context/auth/loginContext";
 import axios from "axios";
 import io from 'socket.io-client';
 import ChatInput from "../components/ChatInput";
+import messagesContext from "../context/user-messages/messagesContext";
 
 const socket = io.connect("http://localhost:5000");
 
@@ -16,6 +17,7 @@ function Chat() {
     const [chatId, setChatId] = useState("");
 
     const loginInfo = useContext(loginContext);
+    const messageInfo = useContext(messagesContext);
 
     useEffect(() => {
         getProfiles();
@@ -48,6 +50,7 @@ function Chat() {
             const chat = response.data.chat;
             setRoom(chat.chatRoom);
             setChatId(chat._id);
+            messageInfo.updateChatId(chat._id);
         } else {
             alert("Data is not available.");
         }

@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import messagesContext from "../context/user-messages/messagesContext";
+import axios from "axios";
 
 const ChatCard = (props) => {
     const message = `You can now chat with ${props.name}`;
@@ -12,7 +13,6 @@ const ChatCard = (props) => {
     async function saveUserId() {
         props.setUserId(props.id);
         props.setName(props.name);
-        messagesList.updateMessages([]);
     }
 
     return (
