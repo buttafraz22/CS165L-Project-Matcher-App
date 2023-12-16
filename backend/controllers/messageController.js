@@ -3,6 +3,7 @@ const Match = require("../models/match");
 const Profile = require("../models/profile");
 const Chat = require("../models/chat");
 const Message = require("../models/message");
+const logController = require("./logController");
 
 async function createMessage(req, res) {
     try {
@@ -25,6 +26,7 @@ async function createMessage(req, res) {
         }
 
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message, })
     }
 }
@@ -54,7 +56,7 @@ async function getMessages(req, res) {
             res.json({isFailed: true});
         }
     } catch (err) {
-        console.log("err");
+        logController.createLog(err);
         res.status(500).json({ error : err.message })
     }
 }
@@ -67,8 +69,9 @@ async function deleteOldMessages() {
         // Delete messages older than 7 days
         await Message.deleteMany({ createdAt: { $lt: sevenDaysAgo } });
         console.log('Old messages deleted successfully.');
-    } catch (error) {
-        console.error('Error deleting old messages:', error);
+    } catch (err) {
+        logController.createLog(err);
+        console.error('Error deleting old messages:', err);
     }
 };
 

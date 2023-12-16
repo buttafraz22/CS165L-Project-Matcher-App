@@ -4,6 +4,7 @@ const Profile = require("../models/profile");
 const Match = require("../models/match");
 const Chat = require("../models/chat");
 const Message = require("../models/message");
+const logController = require("./logController");
 
 async function createProfile(req, res) {
     try {
@@ -32,7 +33,7 @@ async function createProfile(req, res) {
             res.status(201).json({err});
         }
     } catch (err) {
-        console.log("I am in");
+        logController.createLog(err);
         res.status(500).json({ error : err.message, })
     }
 }
@@ -47,6 +48,7 @@ async function getProfile(req, res) {
             res.json({isExist: false});
         }
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message })
     }
 }
@@ -75,6 +77,7 @@ async function deleteProfile(req, res) {
             res.json({isExist: false});
         }
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message })
     }
 }
@@ -116,6 +119,7 @@ async function getAllProfiles(req, res) {
             res.json({isExist: false});
         }
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message })
     }
 }
@@ -134,6 +138,7 @@ async function updateProfile(req, res) {
             res.json({isExist: false});
         }
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message })
     }
 }

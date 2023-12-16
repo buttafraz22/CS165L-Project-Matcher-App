@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Match = require("../models/match");
 const Profile = require("../models/profile");
 const Chat = require("../models/chat");
+const logController = require("./logController");
 
 async function createChat(user1, user2) {
     try {
@@ -22,6 +23,7 @@ async function createChat(user1, user2) {
         }
 
     } catch (err) {
+        logController.createLog(err);
         return false;
     }
 }
@@ -45,6 +47,7 @@ async function deleteChat(userId1, userId2) {
             return false;
         })
     } catch (err) {
+        logController.createLog(err);
         return false;
     }
 }
@@ -59,6 +62,7 @@ async function getRoom(req, res) {
             res.status(201).json({message: false});
         }
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message, })
     }
 }

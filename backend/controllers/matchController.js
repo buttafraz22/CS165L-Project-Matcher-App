@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Match = require("../models/match");
 const Profile = require("../models/profile");
 const chatController = require("./chatController");
+const logController = require("./logController");
 
 async function createMatch(req, res) {
     try {
@@ -28,6 +29,7 @@ async function createMatch(req, res) {
         }
 
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message, })
     }
 }
@@ -51,6 +53,7 @@ async function isMatched(req, res) {
             res.status(201).json({message: false});
         }
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message, })
     }
 }
@@ -67,6 +70,7 @@ async function deleteMatch(req, res) {
             res.status(201).json({message: false});
         })
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message, })
     }
 }
@@ -101,6 +105,7 @@ async function matchedProfiles(req, res) {
             res.status(201).json({isFailed: true});
         }
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message, })
     }
 }
@@ -114,7 +119,7 @@ async function getProfile(userId) {
             return {isFailed: true}
         }
     } catch(err){
-        console.log(err);
+        logController.createLog(err);
     }
 }
 
@@ -127,7 +132,7 @@ async function getSearchedProfile(userId, search) {
             return null;
         }
     } catch(err){
-        console.log(err);
+        logController.createLog(err);
     }
 }
 

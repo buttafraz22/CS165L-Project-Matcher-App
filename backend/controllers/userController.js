@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const Role = require("../models/role");
 const bcrypt = require('bcrypt');
+const logController = require("./logController");
 const saltRounds = 10;
 
 async function createUser(req, res) {
@@ -26,6 +27,7 @@ async function createUser(req, res) {
         }
         res.status(201).json({requestedData});
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message, })
     }
 }
@@ -41,6 +43,7 @@ async function updateUser(req, res) {
         const updatedUser = await User.findByIdAndUpdate(id,userData,{ new: true });
         res.json(updatedUser)
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message })
     }
 }
@@ -50,6 +53,7 @@ async function getAllUsers(req, res) {
         const users = await User.find();
         res.json(users);
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message, });
     }
 }
@@ -60,6 +64,7 @@ async function deleteUser(req, res) {
         const deleteUser = await User.findByIdAndDelete(id);
         res.sendStatus(204);
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message })
     }
 }
@@ -78,6 +83,7 @@ async function login(req, res) {
             res.json({isExist: false});
         }
     } catch (err) {
+        logController.createLog(err);
         res.status(500).json({ error : err.message })
     }
 }

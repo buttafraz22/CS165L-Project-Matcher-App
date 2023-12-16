@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("./user");
 
 const logSchema = new mongoose.Schema({
     errorType: {
@@ -11,7 +10,7 @@ const logSchema = new mongoose.Schema({
     columnNum: {
         type: Number,
     },
-    rowNumber: {
+    rowNum: {
         type: Number,
     },
     activeStatus: {
