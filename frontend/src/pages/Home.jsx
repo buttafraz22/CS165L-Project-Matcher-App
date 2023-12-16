@@ -25,7 +25,9 @@ function Home() {
                 alert('Error');
             }
         })
-        .catch(err=>console.log(err));
+        .catch(err=>{
+            console.log(err);
+        })
     }
 
     function getMyProfile() {

@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
+const User = require("../models/user");
 
 const auditSchema = new mongoose.Schema({
-    objectId: {
-        type: mongoose.Schema.Types.ObjectId,
-        refPath: 'type',
-    },
     objectId: {
         type: mongoose.Schema.Types.ObjectId,
         refPath: 'type',
@@ -14,6 +11,10 @@ const auditSchema = new mongoose.Schema({
     },
     newData: {
         type: mongoose.Schema.Types.Mixed,
+    },
+    activeStatus: {
+        type: Boolean,
+        default: true,
     },
 }, {timestamps:true});
 

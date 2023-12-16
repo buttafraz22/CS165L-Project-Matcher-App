@@ -9,6 +9,7 @@ const profileRoutes = require("./routes/profileRoutes");
 const matchRoutes = require("./routes/matchRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const logRoutes = require("./routes/logRoutes");
 
 require("./utils/db");
  
@@ -24,6 +25,7 @@ app.use("/api", profileRoutes);
 app.use("/api", matchRoutes);
 app.use("/api", chatRoutes);
 app.use("/api", messageRoutes);
+app.use("/api", logRoutes);
 
 const server = http.createServer(app);
 

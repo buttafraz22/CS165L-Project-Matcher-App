@@ -5,6 +5,7 @@ const Match = require("../models/match");
 const Chat = require("../models/chat");
 const Message = require("../models/message");
 const logController = require("./logController");
+const auditController = require("./auditController");
 
 async function createProfile(req, res) {
     try {
@@ -127,13 +128,16 @@ async function getAllProfiles(req, res) {
 async function updateProfile(req, res) {
     try {
         const {userId} = req.params;
+        const object = await Profile.findOne({userId: userId});
+        const oldProfile = await Profile.findOne({userId: userId});
         const profileUpdated = await Profile.updateOne(
             {userId: userId},
             {$set: req.body},
         );
-        const profile = await Profile.findOne({userId: userId})
+        const newProfile = await Profile.findOne({userId: userId});
+        auditController.createAudit(object, oldProfile, newProfile);
         if (profileUpdated) {
-            res.json({profileUpdated: profile, message: "Profile Updated"});
+            res.json({profileUpdated: newProfile, message: "Profile Updated"});
         } else {
             res.json({isExist: false});
         }

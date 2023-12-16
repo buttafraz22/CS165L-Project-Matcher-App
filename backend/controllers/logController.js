@@ -21,6 +21,17 @@ async function createLog(error) {
     }
 }
 
+async function addToLog(req, res) {
+    try {
+        const { error } = req.body;
+        createLog(error);
+        res.status(201).json({message: "Error has been registered"});
+    } catch (err) {
+        createLog(err);
+        res.status(500).json({ error : err.message, })
+    }
+}
+
 module.exports = {
-    createLog
+    addToLog
 }
