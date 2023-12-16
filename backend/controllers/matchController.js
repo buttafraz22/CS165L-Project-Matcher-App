@@ -73,22 +73,32 @@ async function deleteMatch(req, res) {
 
 async function matchedProfiles(req, res) {
     try {
-        const { userId } = req.query;
+        const { userId , search } = req.query;
         let profiles = [];
-        let profile = {};
+        let profile = null;
         const matches = await Match.find({ $or: [{ userId1: userId}, { userId2: userId }] });
         for (let i = 0; i < matches.length; i++) {
             if (matches[i].userId1.toString() !== userId) {
-                profile = await getProfile(matches[i].userId1.toString());
+                if (search.length > 0) {
+                    profile = await getSearchedProfile(matches[i].userId1.toString(), search);
+                } else {
+                    profile = await getProfile(matches[i].userId1.toString());
+                }
             } else {
-                profile = await getProfile(matches[i].userId2.toString());
+                if (search.length > 0) {
+                    profile = await getSearchedProfile(matches[i].userId2.toString(), search);
+                } else {
+                    profile = await getProfile(matches[i].userId2.toString());
+                }
             }
-            profiles.push(profile)
+            if (profile !== null) {
+                profiles.push(profile)
+            }
         }
-        if (matches !== null) {
-            res.status(201).json({message: true, profiles});
+        if (profiles.length > 0) {
+            res.status(201).json({isFailed: false, profiles});
         } else {
-            res.status(201).json({message: false});
+            res.status(201).json({isFailed: true});
         }
     } catch (err) {
         res.status(500).json({ error : err.message, })
@@ -102,6 +112,19 @@ async function getProfile(userId) {
             return profile;
         } else {
             return {isFailed: true}
+        }
+    } catch(err){
+        console.log(err);
+    }
+}
+
+async function getSearchedProfile(userId, search) {
+    try {
+        const profile = await Profile.findOne({userId, name: { $regex: new RegExp(search, 'i') }})
+        if (profile) {
+            return profile;
+        } else {
+            return null;
         }
     } catch(err){
         console.log(err);

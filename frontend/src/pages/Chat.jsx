@@ -15,6 +15,7 @@ function Chat() {
     const [userId, setUserId] = useState("");
     const [room, setRoom] = useState(null);
     const [chatId, setChatId] = useState("");
+    const [search, setSearch] = useState("");
 
     const loginInfo = useContext(loginContext);
     const messageInfo = useContext(messagesContext);
@@ -32,15 +33,23 @@ function Chat() {
         }
     },[userId])
 
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            // Your search logic here (e.g., making an API request)
+            getProfiles();
+        }, 1500); // Adjust the delay (in milliseconds) based on your needs
+    
+        return () => clearTimeout(delayDebounceFn);
+    }, [search]);
+
     async function getProfiles() {
         const userInfo = {userId : loginInfo.userId};
-        const response = await axios.get('http://localhost:5000/api/matched-profiles?userId='+userInfo.userId);
-        if (response.data.profiles) {
+        const response = await axios.get(`http://localhost:5000/api/matched-profiles?userId=${userInfo.userId}&search=${search}`);
+        if (!response.data.isFailed) {
             const profiles = response.data.profiles;
             setUserProfiles(profiles);
-            console.log("Profiles: ",profiles);
         } else {
-            alert("Data is not available.");
+            setUserProfiles([]);
         }
     }
 
@@ -56,17 +65,25 @@ function Chat() {
         }
     }
 
+    function onSearch(e) {
+        const value = e.target.value;
+        setSearch(value);
+    }
+
     return (
         <>
             <div className="chat-page">
                 <div className="chat">
-                    <input className="form-control my-5" type="input" placeholder="Search" />
+                    <input className="form-control my-5" type="input" placeholder="Search" value={search} onChange={onSearch} />
                     <hr/>
                     <div className="chat-scroller">
                         {
+                            userProfiles.length > 0 ?
                             userProfiles.map((profile)=>{
                                 return <ChatCard key={profile._id} id={profile.userId} name={profile.name} image={profile.image} setName={setName} setUserId={setUserId} getRoom={getRoom} />
                             })
+                            :
+                            <p className="text-center h4">There is no profile</p>
                         }
                     </div>
                 </div>

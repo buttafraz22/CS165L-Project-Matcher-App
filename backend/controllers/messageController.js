@@ -10,17 +10,12 @@ async function createMessage(req, res) {
         const chat = await Chat.findOne({_id: chatId});
         const user = await User.findOne({_id: userId});
 
-        console.log(chat);
-        console.log(user);
-
         const message = await Message({
             chatId: chat,
             userId: user,
             messageContent: messageContent,
             time: time
         })
-
-        console.log(message);
 
         message.save();
         if (message != null) {

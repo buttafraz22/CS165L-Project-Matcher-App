@@ -2,6 +2,8 @@ const User = require("../models/user");
 const Role = require("../models/role");
 const Profile = require("../models/profile");
 const Match = require("../models/match");
+const Chat = require("../models/chat");
+const Message = require("../models/message");
 
 async function createProfile(req, res) {
     try {
@@ -55,6 +57,18 @@ async function deleteProfile(req, res) {
         const deletedProfile = await Profile.deleteOne({userId});
         const deletedUser = await User.deleteOne({_id: userId});
         const deletedMatch = await Match.deleteMany({ $or: [{ userId1: userId }, { userId2: userId }] });
+        const chat = await Chat.findOne({$or: [
+            { 'participants.0': userId },
+            { 'participants.1': userId }
+        ]});
+        const deletedChat = await Chat.deleteMany({ $or: [
+            { 'participants.0': userId },
+            { 'participants.1': userId }
+        ]});
+        console.log(chat);
+        if (chat !== null) {
+            const deleteMessages = await Message.deleteMany({ chatId: chat._id });
+        }
         if (deletedProfile) {
             res.json({message: "Profile Deleted"});
         } else {
@@ -68,9 +82,8 @@ async function deleteProfile(req, res) {
 async function getAllProfiles(req, res) {
     try {
         const { userId , minAge , maxAge } = req.query;
-        console.log(req.query);
         const profilesFound = await Profile.find({ userId: { $ne: userId } });
-        const usersFound = await User.find({ _id: { $ne: userId } });
+        const usersFound = await User.find({ _id: { $ne: userId }, age: {$gte: minAge, $lte: maxAge}});
         const userFound = await User.findOne({ _id: userId });
         const currentProfile = await Profile.findOne({ userId: userId });
         const profileRole = await Role.findOne({ _id: currentProfile.profileType });
@@ -80,19 +93,17 @@ async function getAllProfiles(req, res) {
         for (let i = 0; i < profilesFound.length; i++) {
             for (let j = 0; j < usersFound.length; j++) {
                 if (profilesFound[i].userId.toString() == usersFound[j]._id.toString()) {
-                    if (usersFound[j].age >= minAge && usersFound[j].age <= maxAge) {
-                        if (profileRole.roleName === 'Partner') {
-                            const profile = await Profile.findOne({ userId: usersFound[j]._id });
-                            const role = await Role.findOne({ _id: profile.profileType });
-                            if (role.roleName !== "Parent" && usersFound[j].gender != userFound.gender) {
-                                profiles.push(profilesFound[i]);
-                            }
-                        } else {
-                            const profile = await Profile.findOne({ userId: usersFound[j]._id });
-                            const role = await Role.findOne({ _id: profile.profileType });
-                            if (role.roleName !== "Parent") {
-                                profiles.push(profilesFound[i]);
-                            }
+                    if (profileRole.roleName === 'Partner') {
+                        const profile = await Profile.findOne({ userId: usersFound[j]._id });
+                        const role = await Role.findOne({ _id: profile.profileType });
+                        if (role.roleName !== "Parent" && usersFound[j].gender != userFound.gender) {
+                            profiles.push(profilesFound[i]);
+                        }
+                    } else {
+                        const profile = await Profile.findOne({ userId: usersFound[j]._id });
+                        const role = await Role.findOne({ _id: profile.profileType });
+                        if (role.roleName !== "Parent") {
+                            profiles.push(profilesFound[i]);
                         }
                     }
                 }
@@ -112,13 +123,10 @@ async function getAllProfiles(req, res) {
 async function updateProfile(req, res) {
     try {
         const {userId} = req.params;
-        console.log(req.params);
-        console.log(req.body);
         const profileUpdated = await Profile.updateOne(
             {userId: userId},
             {$set: req.body},
         );
-        console.log(profileUpdated);
         const profile = await Profile.findOne({userId: userId})
         if (profileUpdated) {
             res.json({profileUpdated: profile, message: "Profile Updated"});

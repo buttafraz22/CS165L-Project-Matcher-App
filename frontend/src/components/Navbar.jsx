@@ -12,6 +12,10 @@ function Navbar() {
     function onLogout() {
         loginInfo.updateLogin(false);
         loginInfo.updateUserId(null);
+        loginInfo.updateMinAge(18);
+        loginInfo.updateMaxAge(70);
+        loginInfo.updateUsername(null);
+        loginInfo.updateMyProfile(null);
         navigate("/");
     }
 
