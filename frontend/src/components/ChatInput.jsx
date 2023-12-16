@@ -24,15 +24,26 @@ function ChatInput(props) {
                 message: message,
                 author: loginInfo.myProfile.name,
                 room: props.room,
-                time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
-            }
-            await props.socket.emit("send_message", messageData, async (ackCallback) => {
-                console.log("Call back: ",ackCallback);
+                time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
+            };
+        
+            try {
+                const ackCallback = await new Promise((resolve) => {
+                    props.socket.emit("send_message", messageData, (ackCallback) => {
+                        resolve(ackCallback);
+                    });
+                });
+        
+                console.log("Call back: ", ackCallback);
+        
                 messagesList.updateMessages((prevValue) => [...prevValue, ackCallback]);
-                sendMessageToDataBase(ackCallback);
-            });
-            setMessage("");
-        }
+                await sendMessageToDataBase(ackCallback);
+        
+                setMessage("");
+            } catch (error) {
+                console.error(error);
+            }
+        }        
     }
 
     useEffect(()=>{
@@ -48,14 +59,26 @@ function ChatInput(props) {
     }, [props.socket])
 
     async function sendMessageToDataBase(message) {
-        const messageData = {chatId: props.chatId, userId: loginInfo.userId, messageContent: message.message, time: message.time}
-        const response = await axios.post('http://localhost:5000/api/messages', messageData);
-        if (!response.data.isFailed) {
-            const message = response.data.message;
-            console.log(message);
-        } else {
-            alert("Data is not available.");
+        const messageData = {
+            chatId: props.chatId,
+            userId: loginInfo.userId,
+            messageContent: message.message,
+            time: message.time,
+        };
+        
+        try {
+            const response = await axios.post('http://localhost:5000/api/messages', messageData);
+        
+            if (!response.data.isFailed) {
+                const receivedMessage = response.data.message;
+                console.log(receivedMessage);
+            } else {
+                alert("Data is not available.");
+            }
+        } catch (error) {
+            console.error(error);
         }
+        
     }
 
     return (
@@ -65,25 +88,23 @@ function ChatInput(props) {
             </div>
             <div className="chat-input-body" ref={scrollableDivRef}>
                 {
-                    messagesList.messages.map((messageContent)=>{
+                    messagesList.messages.map((messageContent, value)=>{
                         return (
-                            <>
-                                <div class={`chat-message-group ${props.name !== messageContent.author && "writer-user"} `}>
-                                    <div class="chat-messages">
-                                        <div class="message">{messageContent.message}</div>
-                                        <div class="from">{messageContent.author} {messageContent.time}</div>
-                                    </div>
+                            <div key={value} className={`chat-message-group ${props.name !== messageContent.author && "writer-user"} `}>
+                                <div className="chat-messages">
+                                    <div className="message">{messageContent.message}</div>
+                                    <div className="from">{messageContent.author} {messageContent.time}</div>
                                 </div>
-                            </>
+                            </div>
                         );
                     })
                 }
             </div>
             <div className="chat-input-footer">
-                <div class="input-group">
-                    <input type="text" class="form-control p-4" placeholder={`Send message to ${props.name}...`} aria-label="Recipient's username" aria-describedby="basic-addon2" value={message} onChange={(e)=>{setMessage(e.target.value)}} />
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary btn-lg" onClick={sendMessage} type="button"><i class="fa-solid fa-share"></i></button>
+                <div className="input-group">
+                    <input type="text" className="form-control p-4" placeholder={`Send message to ${props.name}...`} aria-label="Recipient's username" aria-describedby="basic-addon2" value={message} onChange={(e)=>{setMessage(e.target.value)}} />
+                    <div className="input-group-append">
+                        <button className="btn btn-secondary btn-lg" onClick={sendMessage} type="button"><i className="fa-solid fa-share"></i></button>
                     </div>
                 </div>
             </div>

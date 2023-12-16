@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import React from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import loginContext from '../context/auth/loginContext';
+import axios from 'axios';
 
 const reducer = (currentState, action) => {
     switch (action.type){
@@ -48,41 +49,36 @@ function SignUp() {
 
     const navigate = useNavigate();
 
-    function onSignUp() {
-        let signUpData= {
-            ...state,
-            age
-        };
-
-        let check = checkConstraints(signUpData);
-
-        if (!check.isFailed) {
-            const options = {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(signUpData)
-              };
-            fetch('http://localhost:5000/api/users', options)
-            .then(response => response.json())
-            .then(data => {
-                if (data.requestedData.isFailed) {
-                    alert(data.requestedData.message);
-                } else if (data.requestedData.isFailed) {
-                    alert(data.requestedData.message);
+    async function onSignUp() {
+        try {
+            let signUpData = {
+                ...state,
+                age,
+            };
+        
+            let check = checkConstraints(signUpData);
+        
+            if (!check.isFailed) {
+                const response = await axios.post('http://localhost:5000/api/users', signUpData);
+        
+                if (response.data.requestedData.isFailed) {
+                    alert(response.data.requestedData.message);
+                } else if (response.data.requestedData.isFailed) {
+                    alert(response.data.requestedData.message);
                 } else {
-                    alert(data.requestedData.message);
-                    loginInfo.updateUserId(data.requestedData.id);
+                    alert(response.data.requestedData.message);
+                    loginInfo.updateUserId(response.data.requestedData.id);
                     loginInfo.updateLogin(true);
                     loginInfo.updateUsername(state.username);
-                    navigate('/profile/'+state.username);
+                    navigate('/profile/' + state.username);
                 }
-            })
-            .catch(error => console.error(error));
-        } else {
-            alert(check.message);
+            } else {
+                alert(check.message);
+            }
+        } catch (error) {
+            console.error(error);
         }
+        
     }
 
     function checkConstraints(signUpData) {
@@ -126,9 +122,9 @@ function SignUp() {
     function onSelectGender(e) {
         let value = e.target.value;
         console.log(value);
-        if (value == 1) {
+        if (parseInt(value) === 1) {
             dispatch({type: 'setGender', payload: 'male'});
-        } else if (value == 2){
+        } else if (parseInt(value) === 2){
             dispatch({type: 'setGender', payload: 'female'});
         }
     }

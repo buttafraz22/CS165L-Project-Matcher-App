@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import loginContext from '../context/auth/loginContext';
 import axios from 'axios';
+// import log from '../log';
 
 function Login() {
 
@@ -26,21 +27,26 @@ function Login() {
     }
 
     async function onLogin() {
-        const userData = {username, password};
+        const userData = { username, password };
 
         const check = checkConstraints(userData);
 
         if (!check.isFailed) {
-            const response = await axios.post('http://localhost:5000/api/login', userData);
-            if (response.data.userFound) {
-                const userId = response.data.userFound._id;
-                const username = response.data.userFound.username;
-                loginInfo.updateLogin(true);
-                loginInfo.updateUserId(userId);
-                loginInfo.updateUsername(username);
-                navigate('/home');
-            } else {
-                alert("Username and password are incorrect.");
+            try {
+                const response = await axios.post('http://localhost:5000/api/login', userData);
+                if (response.data.userFound) {
+                    const userId = response.data.userFound._id;
+                    const username = response.data.userFound.username;
+                    loginInfo.updateLogin(true);
+                    loginInfo.updateUserId(userId);
+                    loginInfo.updateUsername(username);
+                    navigate('/home');
+                } else {
+                    alert("Username and password are incorrect.");
+                }
+            } catch (error) {
+                // log(error);
+                console.error(error);
             }
         } else {
             alert(check.message);

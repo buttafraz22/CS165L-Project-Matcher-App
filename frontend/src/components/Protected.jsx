@@ -10,8 +10,6 @@ function Protected(props) {
     const loginInfo = useContext(loginContext);
     const navigate = useNavigate();
 
-    console.log(loginInfo.login);
-
     useEffect(()=>{
         if (!loginInfo.login) {
             navigate("/");

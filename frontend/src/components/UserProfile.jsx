@@ -8,24 +8,25 @@ function UserProfile(props) {
 
     const matchData = {userId1: props.userId1, userId2: props.userId2}
 
-    function onCheck() {
-        if (isMatched) {
-            axios.post('http://localhost:5000/api/un-match', matchData)
-            .then(res=>{
-                if (res.data.message) {
+    async function onCheck() {
+        try {
+            if (isMatched) {
+                const unmatchResponse = await axios.post('http://localhost:5000/api/un-match', matchData);
+        
+                if (unmatchResponse.data.message) {
                     setMatched(false);
                 }
-            })
-            .catch(err=>console.log(err));
-        } else {
-            axios.post('http://localhost:5000/api/matches', matchData)
-            .then(res=>{
-                if (res.data.message) {
+            } else {
+                const matchResponse = await axios.post('http://localhost:5000/api/matches', matchData);
+        
+                if (matchResponse.data.message) {
                     setMatched(true);
                 }
-            })
-            .catch(err=>console.log(err));
-        }
+            }
+        } catch (error) {
+            console.error(error);
+            // Handle the error appropriately, e.g., show an error message to the user
+        }        
     }
 
     function updateProfileNum() {
@@ -39,14 +40,20 @@ function UserProfile(props) {
     }
 
     useEffect(()=>{
-        axios.post('http://localhost:5000/api/is-matched', matchData)
-        .then(res=>{
-            if (res.data.message) {
+        initialize();
+    }, [])
+
+    async function initialize() {
+        try {
+            const response = await axios.post('http://localhost:5000/api/is-matched', matchData);
+        
+            if (response.data.message) {
                 setMatched(true);
             }
-        })
-        .catch(err=>console.log(err));
-    }, [])
+        } catch (error) {
+            console.error(error);
+        } 
+    }
 
     return (
         <>

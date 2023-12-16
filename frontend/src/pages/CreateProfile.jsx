@@ -1,7 +1,7 @@
 import InputField from "../components/InputField";
 import React from "react";
 import Form from 'react-bootstrap/Form';
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -11,48 +11,50 @@ function CreateProfile() {
 
     const [name, setName] = useState('');
     const [aboutMe, setAboutMe] = useState('');
-    const [profileType, setProfileType] = useState(null);
-    const [relationshipStatus, setRelationshipStatus] = useState(null);
+    const [profileType, setProfileType] = useState(0);
+    const [relationshipStatus, setRelationshipStatus] = useState(0);
     const [profilePicture, setProfilePicture] = useState(null);
     const [visualizePicture, setVisualizePicture] = useState("/images/profile-picture.jpg");
 
     const navigate = useNavigate();
     let params = useParams();
 
-    function onSubmitteed(e) {
-        e.preventDefault();
-        let username = params;
+    async function onSubmitteed(e) {
+        try {
+            e.preventDefault();
+            const username = params;
+        
+            const profileData = {
+                name,
+                aboutMe,
+                profileType,
+                relationshipStatus,
+                ...username,
+                image: visualizePicture,
+            };
+        
+            const check = checkConstraints({ ...profileData, profilePicture });
+        
+            if (!check.isFailed) {
+                const formData = new FormData();
+                formData.append('file', profilePicture);
+                formData.append('profileData', JSON.stringify(profileData));
+        
+                const response = await axios.post('http://localhost:5000/api/profiles', formData);
 
-        let profileData = {
-            name,
-            aboutMe,
-            profileType,
-            relationshipStatus,
-            ...username,
-            image: visualizePicture
-        }
-
-        const check = checkConstraints({...profileData, profilePicture});
-
-        if (!check.isFailed) {
-            const formData = new FormData();
-            formData.append('file', profilePicture);
-            formData.append('profileData', JSON.stringify(profileData));
-    
-            axios.post('http://localhost:5000/api/profiles', formData)
-            .then(res=>{
-                console.log(res.data);
-                if (res.data.message) {
-                    alert(res.data.message);
+                if (response.data.message) {
+                    alert(response.data.message);
                     navigate('/home');
                 } else {
                     alert('Error');
                 }
-            })
-            .catch(err=>console.log(err));
-        } else {
-            alert(check.message);
+            } else {
+                alert(check.message);
+            }
+        } catch (error) {
+            console.error(error);
         }
+        
     }
 
     function checkConstraints(profileData) {
@@ -134,7 +136,7 @@ function CreateProfile() {
                             <div>
                                 <div className="form-group">
                                     <label htmlFor="profile-upload">
-                                        <img src={visualizePicture} alt="Add image" className="custom-picture" />
+                                        <img src={visualizePicture} alt="visualize-img" className="custom-picture" />
                                     </label>
                                     <input 
                                         type="file"
@@ -161,7 +163,7 @@ function CreateProfile() {
                     </div>
                 </form>
                 <div className="image-wrapper" style={{borderRadius: "20px 0 0 20px"}}>
-                    <img src="/images/image2.jpg" alt="image" />
+                    <img src="/images/image2.jpg" alt="create-profile-background-img" />
                 </div>
             </div>
         </>

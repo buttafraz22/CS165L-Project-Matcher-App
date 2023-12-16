@@ -24,7 +24,8 @@ async function createLog(error) {
 async function addToLog(req, res) {
     try {
         const { error } = req.body;
-        createLog(error);
+        console.log(error);
+        // createLog(error);
         res.status(201).json({message: "Error has been registered"});
     } catch (err) {
         createLog(err);

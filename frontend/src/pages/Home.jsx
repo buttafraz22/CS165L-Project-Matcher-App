@@ -16,30 +16,32 @@ function Home() {
         getMyProfile();
     }, [])
 
-    function getAllUserProfiles() {
-        axios.get(`http://localhost:5000/api/profiles/?userId=${userId}&minAge=${loginInfo.minAge}&maxAge=${loginInfo.maxAge}`)
-        .then(async res=> {
-            if (res.data.message) {
-                setUserProfiles(res.data.profilesFound);
+    async function getAllUserProfiles() {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/profiles/?userId=${userId}&minAge=${loginInfo.minAge}&maxAge=${loginInfo.maxAge}`);
+            
+            if (response.data.message) {
+                setUserProfiles(response.data.profilesFound);
             } else {
                 alert('Error');
             }
-        })
-        .catch(err=>{
-            console.log(err);
-        })
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    function getMyProfile() {
-        axios.get(`http://localhost:5000/api/profile/${userId}`)
-        .then(async res=> {
-            if (res.data.message) {
-                loginInfo.updateMyProfile(res.data.profileFound)
+    async function getMyProfile() {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/profile/${userId}`);
+            
+            if (response.data.message) {
+                loginInfo.updateMyProfile(response.data.profileFound);
             } else {
                 alert('Error');
             }
-        })
-        .catch(err=>console.log(err));
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

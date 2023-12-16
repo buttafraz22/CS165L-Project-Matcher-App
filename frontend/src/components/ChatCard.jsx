@@ -6,10 +6,6 @@ const ChatCard = (props) => {
     const message = `You can now chat with ${props.name}`;
     const messagesList = useContext(messagesContext);
 
-    useEffect(()=>{
-        console.log(messagesList);
-    }, [])
-
     async function saveUserId() {
         props.setUserId(props.id);
         props.setName(props.name);

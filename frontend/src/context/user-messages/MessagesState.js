@@ -24,7 +24,6 @@ function MessagesState(props) {
         const response = await axios.get(`http://localhost:5000/api/messages?chatId=${chatId}`);
         if (!response.data.isFailed) {
             const messages = response.data.messages;
-            console.log("as",messages);
             let displayMessage = [];
             for (let i = 0; i < messages.length; i++) {
                 displayMessage.push({
