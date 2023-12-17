@@ -77,6 +77,8 @@ async function login(req, res) {
             bcrypt.compare(password, userFound.password, async function(err, result) {
                 if (result) {       
                     res.json({userFound});
+                } else {
+                    res.json({isExist: false});
                 }
             });
         } else {

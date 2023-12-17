@@ -11,6 +11,9 @@ function MyProfile() {
     const [aboutMe, setAboutMe] = useState(loginInfo.myProfile.aboutMe);
     const [visualizePicture, setVisualizePicture] = useState(loginInfo.myProfile.image);
 
+    const [minAge, setMinAge] = useState(loginInfo.minAge);
+    const [maxAge, setMaxAge] = useState(loginInfo.maxAge);
+
     function changePreference(e) {
         let value = e.target.value;
         let inputName = e.target.name;
@@ -19,16 +22,16 @@ function MyProfile() {
             let newMinAge = parseInt(value, 10);
             
             // Check if newMinAge is valid and less than or equal to maxAge
-            if (!isNaN(newMinAge) && newMinAge <= loginInfo.maxAge - 1) {
-                loginInfo.updateMinAge(newMinAge);
+            if (!isNaN(newMinAge) && newMinAge <= maxAge - 1) {
+                setMinAge(newMinAge);
             }
         } else {
             // Parse the input value to ensure it's a number
             let newMaxAge = parseInt(value, 10);
         
             // Check if newMaxAge is valid and greater than or equal to minAge
-            if (!isNaN(newMaxAge) && newMaxAge >= loginInfo.minAge + 1) {
-                loginInfo.updateMaxAge(newMaxAge);
+            if (!isNaN(newMaxAge) && newMaxAge >= minAge + 1) {
+                setMaxAge(newMaxAge);
             }
         }
     }
@@ -91,6 +94,11 @@ function MyProfile() {
         const file = e.target.files[0];
         const base64 = await convertToBase64(file);
         setVisualizePicture(base64);
+    }
+
+    async function onChangePreference() {
+        loginInfo.updateMinAge(minAge);
+        loginInfo.updateMaxAge(maxAge);
     }
 
     return (
@@ -174,17 +182,17 @@ function MyProfile() {
                                 <div className="range-slider">
                                     <span className="range-selected"></span>
                                 </div>
-                                <input type="range" className="w-100" name="min" min="18" max="70" value={loginInfo.minAge} onChange={changePreference} step="1"/>
+                                <input type="range" className="w-100" name="min" min="18" max="70" value={minAge} onChange={changePreference} step="1"/>
                                 <label htmlFor="min">Min</label>
-                                <input className="ml-3" type="number" name="min" value={loginInfo.minAge} onChange={changePreference} style={{width: "10%"}}/>
-                                <input type="range" className="w-100" name="max" min="18" max="70" value={loginInfo.maxAge} onChange={changePreference} step="1"/>
+                                <input className="ml-3" type="number" name="min" value={minAge} onChange={changePreference} style={{width: "10%"}}/>
+                                <input type="range" className="w-100" name="max" min="18" max="70" value={maxAge} onChange={changePreference} step="1"/>
                                 <label htmlFor="max">Max</label>
-                                <input className="ml-3" type="number" name="max" value={loginInfo.maxAge} onChange={changePreference} style={{width: "10%"}}/>
+                                <input className="ml-3" type="number" name="max" value={maxAge} onChange={changePreference} style={{width: "10%"}}/>
                             </div> 
                         </div>
                     </div>
                     <div className="modal-footer d-flex justify-content-center">
-                        <button className="btn btn-secondary btn-lg w-100 mx-4" data-dismiss="modal" aria-label="Close">
+                        <button className="btn btn-secondary btn-lg w-100 mx-4" onClick={onChangePreference} data-dismiss="modal" aria-label="Close">
                             <i className="fa-solid fa-sliders mr-3"></i>
                             Change Preference
                         </button>

@@ -1,7 +1,7 @@
 import InputField from "../components/InputField";
 import React from "react";
 import Form from 'react-bootstrap/Form';
-import { useState } from "react";
+import { useState , useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -11,13 +11,16 @@ function CreateProfile() {
 
     const [name, setName] = useState('');
     const [aboutMe, setAboutMe] = useState('');
-    const [profileType, setProfileType] = useState(0);
-    const [relationshipStatus, setRelationshipStatus] = useState(0);
+    const [profileType, setProfileType] = useState('');
+    const [relationshipStatus, setRelationshipStatus] = useState('married');
     const [profilePicture, setProfilePicture] = useState(null);
     const [visualizePicture, setVisualizePicture] = useState("/images/profile-picture.jpg");
 
     const navigate = useNavigate();
     let params = useParams();
+
+    const relationshipStatusRef = useRef(null);
+    const [isRelationshipStatusDisabled, setRelationshipStatusDisabled] = useState(false);
 
     async function onSubmitteed(e) {
         try {
@@ -74,6 +77,11 @@ function CreateProfile() {
         const value = e.target.value;
         const selectName = e.target.name;
         if (selectName === 'profileType'){
+            if (value === "parent") {
+                setRelationshipStatusDisabled(true);
+            } else {
+                setRelationshipStatusDisabled(false);
+            }
             setProfileType(value);
         } else {
             setRelationshipStatus(value);
@@ -127,7 +135,7 @@ function CreateProfile() {
                                     <option value="partner">Partner</option>
                                     <option value="parent">Parent</option>
                                 </Form.Select>
-                                <Form.Select name="relationshipStatus" className='w-100 border p-2 mb-3 rounded' aria-label="Default select example" onChange={onSelected} value={relationshipStatus}>
+                                <Form.Select name="relationshipStatus" className='w-100 border p-2 mb-3 rounded' aria-label="Default select example" onChange={onSelected} value={relationshipStatus} ref={relationshipStatusRef} disabled={isRelationshipStatusDisabled}>
                                     <option>Relationship Status</option>
                                     <option value="single">Single</option>
                                     <option value="divorced">Divorced</option>

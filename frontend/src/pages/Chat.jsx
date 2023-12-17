@@ -93,7 +93,7 @@ function Chat() {
                         <h1>Matcher App</h1>
                     </div>
                     :
-                    <ChatInput name={name} chatId={chatId} socket={socket} room={room}/>
+                    <ChatInput name={name} chatId={chatId} socket={socket} room={room} userId={userId}/>
                 }
             </div>
         </>
